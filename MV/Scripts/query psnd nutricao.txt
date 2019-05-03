@@ -1,0 +1,8 @@
+SELECT tipo_refeicao.ds_tipo_refeicao, copa.ds_copa, dbamv.mov_cardapio.CD_MOV_CARDAPIO, funcionario.cd_usuario, funcionario.nm_func, 
+setor.nm_setor, dbamv.mov_cardapio.DT_MOV_CARDAPIO, dbamv.mov_cardapio.CD_USUARIO as USUARIO
+FROM dbamv.MOV_CARDAPIO 
+inner join tipo_refeicao on tipo_refeicao.cd_tipo_refeicao = dbamv.mov_cardapio.cd_tipo_refeicao
+inner join copa on copa.cd_copa = dbamv.mov_cardapio.cd_copa
+inner join funcionario on funcionario.cd_func = dbamv.mov_cardapio.cd_func
+inner join setor on setor.cd_setor = dbamv.mov_cardapio.cd_setor
+where dt_mov_cardapio between  to_date('01/10/2014', 'dd/mm/yyyy') and to_date('23/10/2014', 'dd/mm/yyyy')

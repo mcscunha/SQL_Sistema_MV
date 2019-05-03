@@ -1,0 +1,13 @@
+select cd_procedimento as procedimento, vl_total_internacao as valor_intern, dt_vigencia as data from procedimento_sus_VALOR
+WHERE CD_PROCEDIMENTO LIKE '0301060010%'
+and procedimento_sus_valor.dt_vigencia between to_date('01/01/2013', 'dd/mm/yyyy') and to_date('31/03/2013', 'dd/mm/yyyy')
+  order by cd_procedimento, dt_vigencia
+
+
+
+ select PROCEDIMENTO_SUS.CD_PROCEDIMENTO,PROCEDIMENTO_SUS.DS_PROCEDIMENTO, PROCEDIMENTO_SUS_VALOR.vl_total_internacao, 
+      PROCEDIMENTO_SUS_VALOR.vl_total_ambulatorial, PROCEDIMENTO_SUS_VALOR.dt_vigencia
+      from PROCEDIMENTO_SUS
+      inner join PROCEDIMENTO_SUS_VALOR on PROCEDIMENTO_SUS_VALOR.cd_procedimento = PROCEDIMENTO_SUS.cd_procedimento
+      where PROCEDIMENTO_SUS_VALOR.dt_vigencia = '1-jul-2013'
+     AND PROCEDIMENTO_SUS.ds_procedimento LIKE 'HEMOD%' 

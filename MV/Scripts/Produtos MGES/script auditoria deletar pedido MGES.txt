@@ -1,0 +1,11 @@
+SELECT *
+FROM dbamv.audit_coluna
+WHERE cd_tabela = 'SOLSAI_PRO'
+AND coluna = 'CD_PRE_MED'
+and dado_anterior = 267463 /*codigo da prescrição*/
+/
+
+SELECT *
+FROM dbamv.audit_tabela
+WHERE cd_audit_tabela = 290116 /*codigo que o 1º script vai retornar*/
+/

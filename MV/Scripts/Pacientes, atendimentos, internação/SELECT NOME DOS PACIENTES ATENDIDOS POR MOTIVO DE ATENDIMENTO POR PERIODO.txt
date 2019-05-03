@@ -1,0 +1,20 @@
+SELECT 
+D.CD_ATENDIMENTO,
+A.NM_PACIENTE,
+--COUNT(DISTINCT(B.NM_CIDADE)),
+C.DS_MOT_ENT,
+D.DT_ATENDIMENTO
+FROM 
+PACIENTE A, 
+CIDADE B,
+MOT_ENT C,
+ate_motivo am,
+ATENDIME D
+WHERE A.CD_PACIENTE = D.CD_PACIENTE 
+AND  A.cd_cidade = B.CD_CIDADE 
+AND d.cd_atendimento = am.cd_atendimento
+AND am.cd_mot_ent = c.CD_MOT_ENT
+AND C.CD_MOT_ENT = '66' 
+AND D.DT_ATENDIMENTO between  to_date('01/01/2012', 'dd/mm/yyyy') 
+                          and to_date('14/10/2012', 'dd/mm/yyyy') 
+ORDER BY D.DT_ATENDIMENTO

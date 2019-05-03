@@ -1,0 +1,6 @@
+select NM_PRESTADOR, COUNT(NM_PRESTADOR)  
+from Dbamv.laudo_aih, DBAMV.PRESTADOR
+where dbamv.laudo_aih.cd_prestador_sol = DBAMV.PRESTADOR.CD_PRESTADOR
+AND dt_emissao >= '13/06/2011' 
+GROUP BY NM_PRESTADOR
+ORDER BY 2 DESC

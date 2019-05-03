@@ -1,0 +1,118 @@
+Jorge?
+
+oi 
+
+ta muito ruim a conexao.
+
+muito lento, ne? o problema que essa conexão é a melhor que tenho no momento...
+
+kkkkk, tudo bem vamos la.. mostre o problema por favor
+
+ok..rs
+
+tem o sql tools ai nessa maquina ?
+
+nao...utilizo o pl/sql
+
+esse hospital fica perto do hospital Sao Lucas é ? ou vcs teem ligação ?
+
+fisicamente não fica próximo, mas ambos fazem parte da rede SESA.
+
+hum... eu falei com o rapaz do SC e tiremos hoje o mesmo problema, dai vimos que tem uma movimentacao do leito em aberto, corrigimos e temporariamente resolvermos o problema, entretanto temos qeu atualizar um pacote com alguns arquivos, vamos corrigir logo o legado depois te explico melhor esse processo pode ser ?
+
+pode sim...realmente vi que o problema era esse, tanto que enviei uma tabela com resultado e script, mas vamos la...
+
+oushi, nem vi olha... vou ver aqui no pda depois, tem mais casos alem desse ?
+
+tem nao, mas o caso que enviei é justamente esse que vc acabou de fazer aqui, entao podemos partir logo para a correção.
+
+blz!!!
+
+pronto, dá alta agora ao paciente que agora vai.
+
+sim...mas se possível, queria entender o que vc fez para a questão das integrações, pois eu parei aí...rs
+
+integracao nada.. o que estava faltando era somente preencher o fechamento de uma movimentacao que o sistema deixou pendente, dai eu preenchi com a data e hora da alta do atendimento anterior.
+
+sim, mas eu preparei o update, mas quando executei, ele reclamou da mesma forma que reclamou para voce, em relação a uma trigger...certo?
+
+certo, tava faltando atribuir a empresa no processo, quando aparecer essa tribger ai da integracao basta fazer isso
+
+begin
+   dbamv.pkgmv2000.atribui_empresa(1); -- Codigo da empresa logada no sistema.
+end;
+
+entendeu  ?
+
+sim...muito obrigado pela dica
+
+vamos la...
+
+alta realizada. Você tem a correção do problema que ocasionou esse caso?
+
+infelizmente nao amigo. O que eu tenho hoje é um pacote com 4 telas sobre o processo e 4 scripts de banco para criar duas colunas de auditoria e duas trigger para o processo de monitoria das inconsistências, atravez da implantação dela que vamos detectar esse problema que esta me tirando o sono..
+
+entendi...rs
+
+vamos implantar entao?
+
+sim, so que tem um porém... primeiro eu gostaria que vc recebesse as 4 telas, testasse e após isso colocar em producao. Os scrips é um pouco complicado porque vai ter que alterar a estrutura da tabela "carro chefe" no caso a atendime.. resumindo, vai derrubar centenas de objetos do banco, nesse caso aconselho rodar eles num horario de baixo movimentao.
+
+claro..
+
+mas tenho um problema...estou com problema na minha base de teste, então teria de realizar direto em produção, o que acho muito arriscado. e como tenho um fluxo bem menor que o HSL, que é onde vc disse que deu tambem o problema, prefiro aguardar e verificar se vai acontecer mais casos desses aqui...até pq se vc conseguiu por em produção no HSL, vamos ter a resposta bem mais rápido que aqui...
+
+pronto, veja ai entao, qualquer coisa vc me manda um e-mail, é muitissimo arriscado mesmo rodar isso diretamente na producao, o ideal mesmo seria rodar primeiramente em simulacao, testar tudo depois lancar em producao. Ja fiz isso em outros clientes alguns foi tranquilo, outros deu o maior problemas por conta do multi_empresa que tem que parar e tudo mais, sei que ai nao tem mas cada caso é um caso. Se por um acaso acontecer novamente vc me aciona ou entao tenta ver o preenchimento dessa data que conseguira dar alta.
+
+claro, eu so te peço para caso consiga a solução, entrar em contato comigo...rs
+
+claro fique tranqilo, porque todos os clientes que estao com esse problema eu estou anotando aqui rsrs quando eu conseguir, alem de fazer uma festa vou te deixar informado sim
+
+blz...muito obrigado
+
+disponha, qualquer coisa me envie um e-mail jorge.patricio@mv.com.br
+
+ok..
+
+
+-- ATENDIMENTO
+SELECT cd_atendimento,
+       To_Char(dt_atendimento,'DD/MM/YYYY') dt_atendimento,
+       cd_leito,
+       To_Char(dt_alta,'DD/MM/YYYY') dt_atendimento,
+       To_Char(hr_alta,'DD/MM/YYYY hh24:mi') dt_atendimento
+  FROM dbamv.atendime
+ WHERE cd_atendimento IN(122734,114373)
+
+-- STATUS DO LEITO
+SELECT * 
+  FROM dbamv.leito 
+ WHERE cd_leito = 196
+
+-- MOVIMENTAÇÃO DO LEITO
+SELECT cd_atendimento,
+       cd_mov_int,
+       cd_leito,
+       To_Char(dt_lib_mov,'dd/mm/yyyy') dt_lib_mov,
+       To_Char(hr_lib_mov,'dd/mm/yyyy') dt_lib_mov
+  FROM dbamv.mov_int
+ WHERE cd_leito = 196
+ ORDER BY cd_mov_int desc
+
+update dbamv.mov_int 
+  set dt_lib_mov = to_date('02/09/2011','dd/mm/yyyy'),
+      hr_lib_mov =  to_date('02/09/2011 15:15','dd/mm/yyyy hh24:mi')
+ where cd_mov_int = 13855
+ 
+commit
+
+/* --caso reclame de multi-empresa
+begin
+   dbamv.pkgmv2000.atribui_empresa(1); -- Codigo da empresa logada no sistema.
+end;
+*/ 
+
+ update dbamv.leito 
+ set tp_ocupacao = 'V'
+ where cd_leito = 77
+

@@ -1,0 +1,19 @@
+--count
+select count(TRIAGEM_ATENDIMENTO.cd_classificacao), TRIAGEM_ATENDIMENTO.cd_cor_referencia, SACR_CLASSIFICACAO.ds_tipo_risco--especialid.ds_especialid --vl_idade,
+--distinct cd_paciente, nm_paciente, dh_pre_atendimento, cd_atendimento, cd_cor_referencia, cd_classificacao, nm_usuario_triagem, 
+--ds_senha, cd_usuario_removeu--count(vl_idade), --vl_idade, 
+--especialid.ds_especialid--, cd_cor_referencia
+from DBAMV.TRIAGEM_ATENDIMENTO
+inner join especialid on especialid.cd_especialid = TRIAGEM_ATENDIMENTO.cd_especialid
+inner join SACR_CLASSIFICACAO on SACR_CLASSIFICACAO.cd_classificacao = TRIAGEM_ATENDIMENTO.cd_classificacao
+where --vl_idade <= 13 and 
+TRIAGEM_ATENDIMENTO.dh_pre_atendimento between  to_date('20/10/2013', 'dd/mm/yyyy') and to_date('20/11/2013', 'dd/mm/yyyy') 
+--and cd_classificacao is not null
+and TRIAGEM_ATENDIMENTO.dh_pre_atendimento_fim is not null --and nm_usuario_triagem is not null
+--and tp_classificacao is not null
+and TRIAGEM_ATENDIMENTO.cd_classificacao is not null and cd_usuario_removeu is null --and cd_atendimento is not null 
+and TRIAGEM_ATENDIMENTO.nm_usuario_triagem is not null
+--and cd_sintoma_avaliacao  is not null --and cd_cor_referencia = 4 --and ds_especialid like 'PEDIATRIA'
+group by  TRIAGEM_ATENDIMENTO.cd_cor_referencia, SACR_CLASSIFICACAO.ds_tipo_risco --cd_paciente, nm_paciente, cd_atendimento, dh_pre_atendimento, cd_cor_referencia, cd_usuario_removeu, cd_classificacao, nm_usuario_triagem, ds_senha
+order by TRIAGEM_ATENDIMENTO.cd_cor_referencia, SACR_CLASSIFICACAO.ds_tipo_risco
+--order by  nm_paciente

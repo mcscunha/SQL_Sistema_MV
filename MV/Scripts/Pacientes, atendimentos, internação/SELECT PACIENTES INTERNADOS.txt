@@ -1,0 +1,21 @@
+SELECT
+n.cd_atendimento, 
+nu.nm_paciente,
+UI.ds_unid_int,
+leito. ds_leito,
+n.dt_atendimento
+--CONVERT(VARCHAR,n.dt_atendimento,131).
+ --CONVERT(VARCHAR(10), GETDATE(), 103) AS [DD/MM/YYYY]
+--DATE_FORMAT(n.dt_atendimento() '%d/%m/%Y')
+
+FROM  ATENDIME N 
+inner join PACIENTE NU ON N.CD_PACIENTE = NU.CD_PACIENTE /*cd_paciente*/
+inner join LEITO ON N.CD_LEITO = LEITO.cd_leito /*cd_leito*/
+INNER JOIN UNID_INT UI ON UI.CD_UNID_INT = LEITO.CD_UNID_INT /*cd_unit_int*/
+
+WHERE 
+n.TP_ATENDIMENTO = 'I' /*TIPO=INTERNAÇÃO*/
+and n.dt_alta is null
+--and n.DT_ATENDIMENTO = to_date('08/11/2012', 'dd/mm/yyyy') 
+                        
+order by nu.nm_paciente

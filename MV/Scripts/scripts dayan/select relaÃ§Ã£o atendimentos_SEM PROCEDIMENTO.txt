@@ -1,0 +1,27 @@
+
+select  dbamv.laudo_aih.cd_espec_sus,
+        NM_PACIENTE AS PACIENTE,
+        DBAMV.ATENDIME.CD_PACIENTE AS PRONTUÁRIO, 
+        DT_ATENDIMENTO AS INTERNAÇÃO,
+        DT_NASCIMENTO AS NASCIMENTO, 
+        NM_CIDADE AS MUNICÍPIO, 
+        dbamv.laudo_aih.cd_procedimento as PROCEDIMENTO
+   
+FROM DBAMV.ATENDIME, 
+     DBAMV.PACIENTE,
+     DBAMV.CIDADE,
+     dbamv.laudo_aih
+         
+WHERE 
+     (DBAMV.ATENDIME.CD_PACIENTE = DBAMV.PACIENTE.CD_PACIENTE
+  AND DBAMV.PACIENTE.CD_CIDADE   = DBAMV.CIDADE.CD_CIDADE
+  AND DBAMV.ATENDIME.CD_ATENDIMENTO  = DBAMV.LAUDO_AIH.CD_ATENDIMENTO
+      ) 
+  AND DBAMV.ATENDIME.DT_ATENDIMENTO 
+      BETWEEN '10/05/2011' --Data Início
+      AND '19/06/2011' --Data Fim
+  and dbamv.laudo_aih.cd_espec_sus is null
+  
+ORDER BY NM_CIDADE, 
+      DT_ATENDIMENTO
+

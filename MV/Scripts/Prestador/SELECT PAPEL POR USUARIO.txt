@@ -1,0 +1,5 @@
+    select papel.cd_papel, papel.ds_papel, dbasgu.papel_usuarios.cd_usuario, dbasgu.usuarios.nm_usuario, dbasgu.usuarios.sn_ativo from dbasgu.papel
+      inner join dbasgu.papel_usuarios on dbasgu.papel_usuarios.cd_papel = papel.cd_papel
+      inner join dbasgu.usuarios on dbasgu.usuarios.cd_usuario = dbasgu.papel_usuarios.cd_usuario
+      where dbasgu.usuarios.sn_ativo = 'S' and dbasgu.papel.cd_papel = '70' or dbasgu.papel.cd_papel =  '72' --INSERIR NUMERO DO PAPEL
+      order by dbasgu.usuarios.nm_usuario

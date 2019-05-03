@@ -1,0 +1,3 @@
+select cd_paciente, nm_paciente, tp_sexo, dt_nascimento, nr_cpf, nm_mae, nm_pai, nr_ddd_fone, nr_fone, nr_ddd_celular, 
+nr_celular  from paciente
+where tp_sexo = 'I'

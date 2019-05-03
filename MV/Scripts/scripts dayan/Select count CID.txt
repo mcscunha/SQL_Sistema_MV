@@ -1,0 +1,9 @@
+
+select count(dbamv.atendime.cd_cid),dbamv.atendime.cd_cid, substr(ds_cid,1,60)--*
+ from dbamv.atendime,dbamv.cid
+ where 
+ dbamv.atendime.cd_cid = dbamv.cid.cd_cid
+ group by dbamv.atendime.cd_cid,ds_cid
+ order by 1 desc
+ 
+ 

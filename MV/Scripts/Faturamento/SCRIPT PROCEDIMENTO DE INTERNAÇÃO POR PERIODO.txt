@@ -1,0 +1,15 @@
+select  paciente.cd_paciente as prontuario,atendime.cd_atendimento as atendimento,paciente.nm_paciente as nome,
+dbamv.laudo_aih.cd_procedimento as procedimento,procedimento_sus.ds_procedimento as procedimento,--, count(dbamv.laudo_aih.cd_procedimento) as quantidade,
+dbamv.laudo_aih.DT_EMISSAO, procedimento_sus_valor.dt_vigencia
+from dbamv.Laudo_AIH
+inner join procedimento_sus on procedimento_sus.cd_procedimento = laudo_aih.cd_procedimento 
+inner join atendime on laudo_aih.cd_atendimento = atendime.cd_atendimento
+inner join paciente on atendime.cd_paciente = paciente.cd_paciente
+inner join procedimento_sus_valor on procedimento_sus_valor.cd_procedimento = procedimento_sus.cd_procedimento 
+
+where dbamv.laudo_aih.DT_EMISSAO between to_date('01/01/2013', 'dd/mm/yyyy') and to_date('31/03/2013', 'dd/mm/yyyy')/*periodo em que o procedimento foi usado no Laudo AIH*/
+and procedimento_sus_valor.dt_vigencia between to_date('01/01/2013', 'dd/mm/yyyy') and to_date('31/01/2013', 'dd/mm/yyyy')/*periodo da vigencia do valor do procedimento*/
+ and PROCEDIMENTO_SUS.cd_procedimento = '0404010377' --cd do procedimento
+ group by dbamv.laudo_aih.cd_procedimento, procedimento_sus.ds_procedimento, dbamv.laudo_aih.DT_EMISSAO, procedimento_sus_valor.dt_vigencia, atendime.cd_atendimento,
+paciente.cd_paciente, paciente.nm_paciente
+order by  dbamv.laudo_aih.cd_procedimento, dbamv.laudo_aih.DT_EMISSAO

@@ -1,0 +1,84 @@
+--cirurgias por paciente
+SELECT A.CD_AVISO_CIRURGIA,
+       A.CD_PACIENTE, 
+       e.DS_ESPECIALID, 
+       A.DT_REALIZACAO,
+       d.DS_CIRURGIA
+FROM AVISO_CIRURGIA A,
+   
+     CIRURGIA_AVISO C,
+     cirurgia d,
+     ESPECIALID e        
+WHERE c.cd_especialid = e.cd_especialid
+  and d.cd_cirurgia = c.cd_cirurgia
+ 
+  AND c.CD_aviso_CIRUrGIA = a.CD_aviso_CIRURGIA
+  and A.TP_SITUACAO ='R'
+  AND DT_REALIZACAO between  to_date('01/03/2012', 'dd/mm/yyyy') and to_date('31/08/2012', 'dd/mm/yyyy')
+  order by DT_REALIZACAO 
+
+  --cirurgias e quantidade
+SELECT --A.CD_AVISO_CIRURGIA,
+       --A.CD_PACIENTE, 
+       --e.DS_ESPECIALID, 
+       --A.DT_REALIZACAO,
+       d.DS_CIRURGIA,
+       count(d.DS_CIRURGIA)
+FROM AVISO_CIRURGIA A,
+     CIRURGIA_AVISO C,
+     cirurgia d,
+     ESPECIALID e        
+WHERE c.cd_especialid = e.cd_especialid
+  and d.cd_cirurgia = c.cd_cirurgia
+  AND c.CD_aviso_CIRUrGIA = a.CD_aviso_CIRURGIA
+  and A.TP_SITUACAO ='R'
+  and e.cd_especialid = 33
+  AND DT_REALIZACAO between  to_date('01/09/2013', 'dd/mm/yyyy') and to_date
+
+('29/11/2013', 'dd/mm/yyyy')
+  group by d.DS_CIRURGIA--,count(d.DS_CIRURGIA)
+  order by d.DS_CIRURGIA --DT_REALIZACAO 
+
+
+ --total por especialidade
+SELECT --A.CD_AVISO_CIRURGIA,
+       --A.CD_PACIENTE, 
+       e.DS_ESPECIALID, 
+       --A.DT_REALIZACAO,
+      -- d.DS_CIRURGIA,
+       count(d.DS_CIRURGIA)
+FROM AVISO_CIRURGIA A,
+     CIRURGIA_AVISO C,
+     cirurgia d,
+     ESPECIALID e        
+WHERE c.cd_especialid = e.cd_especialid
+  and d.cd_cirurgia = c.cd_cirurgia
+  AND c.CD_aviso_CIRUrGIA = a.CD_aviso_CIRURGIA
+  and A.TP_SITUACAO ='R'
+  and e.cd_especialid = 33
+  AND DT_REALIZACAO between  to_date('01/09/2013', 'dd/mm/yyyy') and to_date
+
+('31/12/2013', 'dd/mm/yyyy')
+  group by   e.DS_ESPECIALID--,count(d.DS_CIRURGIA)
+  order by   e.DS_ESPECIALID --DT_REALIZACAO 
+
+
+--soma total
+SELECT --A.CD_AVISO_CIRURGIA,
+       --A.CD_PACIENTE, 
+       --e.DS_ESPECIALID, 
+       --A.DT_REALIZACAO,
+       --d.DS_CIRURGIA,
+       SUM(count(d.DS_CIRURGIA))
+FROM AVISO_CIRURGIA A,
+     CIRURGIA_AVISO C,
+     cirurgia d,
+     ESPECIALID e        
+WHERE c.cd_especialid = e.cd_especialid
+  and d.cd_cirurgia = c.cd_cirurgia
+  AND c.CD_aviso_CIRUrGIA = a.CD_aviso_CIRURGIA
+  and A.TP_SITUACAO ='R'
+ and e.cd_especialid = 33
+  AND DT_REALIZACAO between  to_date('01/10/2013', 'dd/mm/yyyy') and to_date('01/11/2013', 'dd/mm/yyyy')
+  group by d.DS_CIRURGIA--,count(d.DS_CIRURGIA)
+  order by d.DS_CIRURGIA --DT_REALIZACAO

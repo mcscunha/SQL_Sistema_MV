@@ -1,0 +1,104 @@
+
+--nome
+select distinct cd_paciente, nm_paciente, dh_pre_atendimento, cd_atendimento, cd_cor_referencia, cd_classificacao, nm_usuario_triagem, 
+ds_senha, cd_usuario_removeu--count(vl_idade), --vl_idade, 
+--especialid.ds_especialid--, cd_cor_referencia
+from DBAMV.TRIAGEM_ATENDIMENTO
+inner join especialid on especialid.cd_especialid = TRIAGEM_ATENDIMENTO.cd_especialid
+where --vl_idade <= 12 and 
+dh_pre_atendimento between  to_date('01/11/2013', 'dd/mm/yyyy') and to_date('11/11/2013', 'dd/mm/yyyy') 
+--and cd_classificacao is not null
+and dh_pre_atendimento_fim is not null --and nm_usuario_triagem is not null
+--and tp_classificacao is not null
+and cd_classificacao is not null and cd_usuario_removeu is null --and cd_atendimento is not null 
+and nm_usuario_triagem is not null
+--and cd_sintoma_avaliacao  is not null --and cd_cor_referencia = 4 --and ds_especialid like 'PEDIATRIA'
+group by cd_paciente, nm_paciente, cd_atendimento, dh_pre_atendimento, cd_cor_referencia, cd_usuario_removeu, cd_classificacao, nm_usuario_triagem, ds_senha
+--order by count(vl_idade)
+order by  nm_paciente
+
+
+--count por idade
+select count(cd_classificacao), especialid.ds_especialid --vl_idade,
+--distinct cd_paciente, nm_paciente, dh_pre_atendimento, cd_atendimento, cd_cor_referencia, cd_classificacao, nm_usuario_triagem, 
+--ds_senha, cd_usuario_removeu--count(vl_idade), --vl_idade, 
+--especialid.ds_especialid--, cd_cor_referencia
+from DBAMV.TRIAGEM_ATENDIMENTO
+inner join especialid on especialid.cd_especialid = TRIAGEM_ATENDIMENTO.cd_especialid
+where vl_idade <= 13 and 
+dh_pre_atendimento between  to_date('20/10/2013', 'dd/mm/yyyy') and to_date('19/11/2013', 'dd/mm/yyyy') 
+--and cd_classificacao is not null
+and dh_pre_atendimento_fim is not null --and nm_usuario_triagem is not null
+--and tp_classificacao is not null
+and cd_classificacao is not null and cd_usuario_removeu is null --and cd_atendimento is not null 
+and nm_usuario_triagem is not null
+--and cd_sintoma_avaliacao  is not null --and cd_cor_referencia = 4 --and ds_especialid like 'PEDIATRIA'
+group by  especialid.ds_especialid--cd_paciente, nm_paciente, cd_atendimento, dh_pre_atendimento, cd_cor_referencia, cd_usuario_removeu, cd_classificacao, nm_usuario_triagem, ds_senha
+order by especialid.ds_especialid
+--order by  nm_paciente
+
+
+--soma total
+select sum(count(cd_classificacao))
+from DBAMV.TRIAGEM_ATENDIMENTO
+inner join especialid on especialid.cd_especialid = TRIAGEM_ATENDIMENTO.cd_especialid
+where dh_pre_atendimento between  to_date('02/10/2012', 'dd/mm/yyyy') and to_date('12/03/2014', 'dd/mm/yyyy') 
+and dh_pre_atendimento_fim is not null 
+and cd_classificacao is not null and cd_usuario_removeu is null  
+and nm_usuario_triagem is not null
+group by  especialid.ds_especialid
+order by especialid.ds_especialid
+
+
+--quantidade por cor
+select count(cd_classificacao), triagem_atendimento.cd_cor_referencia, sacr_cor_referencia.nm_cor--especialid.ds_especialid --vl_idade,
+--distinct cd_paciente, nm_paciente, dh_pre_atendimento, cd_atendimento, cd_cor_referencia, cd_classificacao, nm_usuario_triagem, 
+--ds_senha, cd_usuario_removeu--count(vl_idade), --vl_idade, 
+--especialid.ds_especialid--, cd_cor_referencia
+from DBAMV.TRIAGEM_ATENDIMENTO
+inner join  sacr_cor_referencia on sacr_cor_referencia.cd_cor_referencia = triagem_atendimento.cd_cor_referencia
+inner join especialid on especialid.cd_especialid = TRIAGEM_ATENDIMENTO.cd_especialid
+where vl_idade > 13 and 
+dh_pre_atendimento between  to_date('20/12/2013', 'dd/mm/yyyy') and to_date('20/01/2014', 'dd/mm/yyyy') 
+--and cd_classificacao is not null
+and dh_pre_atendimento_fim is not null --and nm_usuario_triagem is not null
+--and tp_classificacao is not null
+and cd_classificacao is not null and cd_usuario_removeu is null --and cd_atendimento is not null 
+and nm_usuario_triagem is not null
+--and cd_sintoma_avaliacao  is not null --and cd_cor_referencia = 4 --and ds_especialid like 'PEDIATRIA'
+group by  triagem_atendimento.cd_cor_referencia, sacr_cor_referencia.nm_cor--cd_paciente, nm_paciente, cd_atendimento, dh_pre_atendimento, cd_cor_referencia, cd_usuario_removeu, cd_classificacao, nm_usuario_triagem, ds_senha
+order by triagem_atendimento.cd_cor_referencia, sacr_cor_referencia.nm_cor
+--order by  nm_paciente
+
+
+--por cidade
+select dbamv.triagem_atendimento.ds_senha, dbamv.triagem_atendimento.nm_paciente, dbamv.triagem_atendimento.cd_atendimento, 
+dbamv.triagem_atendimento.dh_pre_atendimento, cidade.nm_cidade, 
+dbamv.triagem_atendimento.cd_cor_referencia, dbamv.triagem_atendimento.cd_usuario_removeu, dbamv.triagem_atendimento.cd_classificacao, 
+dbamv.triagem_atendimento.nm_usuario_triagem
+from DBAMV.TRIAGEM_ATENDIMENTO
+inner join cidade on cidade.cd_cidade = triagem_atendimento.cd_cidade_paciente
+where --vl_idade <= 12 and 
+dbamv.triagem_atendimento.dh_pre_atendimento between  to_date('01/07/2014', 'dd/mm/yyyy') and to_date('02/07/2014', 'dd/mm/yyyy') 
+and dbamv.triagem_atendimento.dh_pre_atendimento_fim is not null 
+and dbamv.triagem_atendimento.cd_classificacao is not null 
+and dbamv.triagem_atendimento.cd_usuario_removeu is null 
+and dbamv.triagem_atendimento.nm_usuario_triagem is not null
+group by dbamv.triagem_atendimento.nm_paciente, dbamv.triagem_atendimento.cd_atendimento, dbamv.triagem_atendimento.dh_pre_atendimento, 
+cidade.nm_cidade,
+dbamv.triagem_atendimento.cd_cor_referencia, dbamv.triagem_atendimento.cd_usuario_removeu, dbamv.triagem_atendimento.cd_classificacao, 
+dbamv.triagem_atendimento.nm_usuario_triagem, ds_senha
+order by  dbamv.triagem_atendimento.dh_pre_atendimento, dbamv.triagem_atendimento.nm_paciente
+
+--count por cidade
+select cidade.nm_cidade, count(cidade.nm_cidade)
+from DBAMV.TRIAGEM_ATENDIMENTO
+inner join cidade on cidade.cd_cidade = triagem_atendimento.cd_cidade_paciente
+where --vl_idade <= 12 and 
+dbamv.triagem_atendimento.dh_pre_atendimento between  to_date('01/07/2014', 'dd/mm/yyyy') and to_date('02/07/2014', 'dd/mm/yyyy') 
+and dbamv.triagem_atendimento.dh_pre_atendimento_fim is not null 
+and dbamv.triagem_atendimento.cd_classificacao is not null 
+and dbamv.triagem_atendimento.cd_usuario_removeu is null 
+and dbamv.triagem_atendimento.nm_usuario_triagem is not null
+group by cidade.nm_cidade--, count(cidade.nm_cidade)
+order by  cidade.nm_cidade

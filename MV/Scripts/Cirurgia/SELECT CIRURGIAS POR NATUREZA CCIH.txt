@@ -1,0 +1,16 @@
+SELECT --VDIC_MAPA_CIRURGIA.cirurgiao,--prestador_aviso.nm_prestador, 
+Aviso_cirurgia.CD_AVISO_CIRURGIA, Aviso_cirurgia.CD_PACIENTE, Aviso_cirurgia.cd_atendimento, paciente.nm_paciente, 
+fn_idade(paciente.dt_nascimento, lower('a ') || 'A',sysdate) as idade, paciente.nr_fone, paciente.nr_celular,  
+cirurgia.DS_CIRURGIA, cirurgia_aviso.tp_natureza, especialid.DS_ESPECIALID, Aviso_cirurgia.DT_REALIZACAO
+FROM AVISO_CIRURGIA
+inner join cirurgia_aviso on aviso_cirurgia.CD_aviso_CIRUrGIA = cirurgia_aviso.CD_aviso_CIRURGIA 
+inner join cirurgia on cirurgia.cd_cirurgia = cirurgia_aviso.cd_cirurgia
+inner join especialid on cirurgia_aviso.cd_especialid = especialid.cd_especialid
+inner join paciente on paciente.cd_paciente = aviso_cirurgia.cd_paciente
+--inner join prestador_aviso on prestador_aviso.c.cd_cirurgia = cirurgia_aviso.cd_cirurgia
+--inner join prestador_cirurgia on prestador_cirurgia.cd_prestador = cirurgia.cd_cirurgia
+--inner join prestador_aviso on prestador_aviso.cd_prestador = prestador_cirurgia.cd_prestador
+WHERE Aviso_cirurgia.TP_SITUACAO ='R'
+  AND DT_REALIZACAO between  to_date('01/02/2014', 'dd/mm/yyyy') and to_date('01/03/2014', 'dd/mm/yyyy')
+  order by DT_REALIZACAO 
+ 

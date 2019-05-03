@@ -1,0 +1,37 @@
+--por sexo
+select paciente.tp_sexo, paciente.cd_cidade, cidade.nm_cidade, cidade.cd_uf, count(paciente.tp_sexo) from dbamv.paciente
+--inner join paciente on paciente.cd_cidade = cidade.cd_cidade
+inner join atendime on atendime.cd_paciente = paciente.cd_paciente
+inner join cidade on paciente.cd_cidade = cidade.cd_cidade
+--INNER JOIN ATE_MOTIVO ON ATENDIME.cd_atendimento = ATE_MOTIVO.cd_atendimento
+--INNER JOIN MOT_ENT ON ATE_MOTIVO.cd_mot_ent = MOT_ENT.CD_MOT_ENT
+where ATENDIME.DT_ATENDIMENTO between  to_date('01/01/2013', 'dd/mm/yyyy') and
+                              to_date('01/12/2013', 'dd/mm/yyyy')
+GROUP BY paciente.tp_sexo, paciente.cd_cidade, cidade.nm_cidade, cidade.cd_uf
+ORDER BY cidade.cd_uf, cidade.nm_cidade --, count(paciente.tp_sexo) desc
+
+--total
+select --paciente.tp_sexo, 
+paciente.cd_cidade, cidade.nm_cidade, cidade.cd_uf, count(paciente.tp_sexo) from dbamv.paciente
+--inner join paciente on paciente.cd_cidade = cidade.cd_cidade
+inner join atendime on atendime.cd_paciente = paciente.cd_paciente
+inner join cidade on paciente.cd_cidade = cidade.cd_cidade
+--INNER JOIN ATE_MOTIVO ON ATENDIME.cd_atendimento = ATE_MOTIVO.cd_atendimento
+--INNER JOIN MOT_ENT ON ATE_MOTIVO.cd_mot_ent = MOT_ENT.CD_MOT_ENT
+where ATENDIME.DT_ATENDIMENTO between  to_date('01/01/2013', 'dd/mm/yyyy') and
+                              to_date('01/12/2013', 'dd/mm/yyyy')
+GROUP BY  paciente.cd_cidade, cidade.nm_cidade, cidade.cd_uf
+ORDER BY cidade.cd_uf, cidade.nm_cidade --, count(paciente.tp_sexo) desc
+
+--count por atendimento
+select --paciente.tp_sexo, 
+atendime.cd_atendimento, paciente.cd_cidade, cidade.nm_cidade, cidade.cd_uf, count(paciente.tp_sexo) from dbamv.paciente
+--inner join paciente on paciente.cd_cidade = cidade.cd_cidade
+inner join atendime on atendime.cd_paciente = paciente.cd_paciente
+inner join cidade on paciente.cd_cidade = cidade.cd_cidade
+--INNER JOIN ATE_MOTIVO ON ATENDIME.cd_atendimento = ATE_MOTIVO.cd_atendimento
+--INNER JOIN MOT_ENT ON ATE_MOTIVO.cd_mot_ent = MOT_ENT.CD_MOT_ENT
+where ATENDIME.DT_ATENDIMENTO between  to_date('01/01/2013', 'dd/mm/yyyy') and
+                              to_date('01/12/2013', 'dd/mm/yyyy')
+GROUP BY  paciente.cd_cidade, cidade.nm_cidade, cidade.cd_uf, atendime.cd_atendimento
+ORDER BY cidade.cd_uf, cidade.nm_cidade --, count(paciente.tp_sexo) desc

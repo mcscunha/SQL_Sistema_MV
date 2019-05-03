@@ -1,0 +1,44 @@
+SELECT  ATENDIME.CD_CONVENIO 
+       ,CONVENIO.NM_CONVENIO 
+       ,DECODE(CONVENIO.TP_CONVENIO,'A', EXA_LAB.CD_procedimento_sia, 
+                                    'C', EXA_LAB.CD_PRO_FAT, 
+                                    'P', EXA_LAB.CD_PRO_FAT, 
+                                    'H', EXA_LAB.CD_PROCEDIMENTO_SIH ) 
+CD_EXAME 
+       ,EXA_LAB.NM_EXA_LAB 
+       ,COUNT(* ) QTD_EXAME 
+       ,dbamv.calc_vl_proc_unit(  convenio.tp_convenio, 
+                                                  decode( 
+convenio.tp_convenio, 'A', exa_lab.cd_PROCEDIMENTO_SIA 
+
+, 'H', exa_lab.cd_proCEDIMENTO_SIH 
+
+, 'C', exa_lab.cd_pro_fat 
+
+, 'P', exa_lab.cd_pro_fat), 
+                                                   ped_lab.dt_pedido, 
+                                                   ped_lab.hr_ped_lab, 
+                                                   convenio.cd_convenio, 
+                                                   atendime.cd_con_pla, 
+                                                   atendime.tp_atendimento, 
+                                                   atendime.cd_tip_acom, 
+                                                   'U' ) 
+VL_CUSTO 
+        
+FROM     DBAMV.ATENDIME 
+              ,DBAMV.CONVENIO 
+              ,DBAMV.PED_LAB 
+              ,DBAMV.ITPED_LAB 
+              ,DBAMV.EXA_LAB 
+WHERE ATENDIME.CD_MULTI_EMPRESA = :P_CD_MULTI_EMPRESA 
+AND       ATENDIME.CD_ATENDIMENTO  =  PED_LAB.CD_ATENDIMENTO 
+AND       PED_LAB.CD_CONVENIO  =  CONVENIO.CD_CONVENIO 
+AND       PED_LAB.CD_PED_LAB  =  ITPED_LAB.CD_PED_LAB 
+AND       ITPED_LAB.CD_EXA_LAB  =  EXA_LAB.CD_EXA_LAB 
+AND       EXISTS  (SELECT 1 
+                             FROM  DBAMV.USUARIOS_SET_EXA 
+                             WHERE USUARIOS_SET_EXA.CD_SET_EXA  = 
+ITPED_LAB.CD_SET_EXA 
+                             AND USUARIOS_SET_EXA.NM_USUARIO = USER) 
+AND  ATENDIME.CD_MULTI_EMPRESA = 1 
+GROUP BY ATENDIME.CD_CONVENIO 

@@ -1,0 +1,24 @@
+SELECT 
+N.CD_CID as CID, 
+SGRU.DS_SGRU_CID as NOME,
+NE.DS_CID as DESCRIÇÃO,
+SGRU.CD_SGRU_CID as SUBGRUPO,  
+N.TP_ATENDIMENTO,
+--N.DT_ATENDIMENTO,
+count(ne.cd_cid)
+
+FROM  dbamv.ATENDIME N 
+inner join dbamv.PACIENTE NU ON N.CD_PACIENTE = NU.CD_PACIENTE /*cd_paciente*/
+inner join dbamv.CID NE on N.CD_CID = NE.CD_CID /*cd_cid*/
+inner join dbamv.sgru_cid sgru on sgru.cd_sgru_cid = ne.cd_sgru_cid /*cd_sgru_cid*/
+inner join dbamv.gru_cid gru on gru.cd_gru_cid = sgru.cd_gru_cid
+
+WHERE 
+n.TP_ATENDIMENTO = 'I' /*TIPO=INTERNAÇÃO*/
+AND GRU.cd_gru_cid = 1  /*QUANDO PERTENCER AO GRUPO 1*/ 
+and DT_ATENDIMENTO between  to_date('01/01/2011', 'dd/mm/yyyy') 
+                        and to_date('31/12/2011', 'dd/mm/yyyy') 
+                        
+                                                
+group by n.CD_cid,SGRU.DS_SGRU_CID,NE.DS_CID,SGRU.CD_SGRU_CID,N.TP_ATENDIMENTO
+order by n.CD_cid,SGRU.DS_SGRU_CID,NE.DS_CID,SGRU.CD_SGRU_CID,N.TP_ATENDIMENTO

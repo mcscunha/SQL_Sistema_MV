@@ -1,0 +1,5 @@
+select procedimento_sus_CBO.cd_cbos, cbo.ds_cbos, procedimento_sus_CBO.cd_procedimento, procedimento_sus.ds_procedimento from procedimento_sus_CBO
+inner join procedimento_sus on procedimento_sus.cd_procedimento = procedimento_sus_cbo.cd_procedimento
+inner join CBO on CBO.cd_cbos = procedimento_sus_CBO.cd_cbos
+where procedimento_sus_Cbo.cd_cbos = '225260'
+order by procedimento_sus.ds_procedimento

@@ -1,0 +1,5 @@
+select prestador.cd_prestador, DBASGU.USUARIOS.CD_USUARIO, prestador.nm_prestador, tip_presta.nm_tip_presta
+from prestador
+inner join tip_presta on prestador.cd_tip_presta = tip_presta.cd_tip_presta
+inner join DBASGU.USUARIOS on DBASGU.USUARIOS.cd_prestador = prestador.cd_prestador
+where tip_presta.cd_tip_presta = 5

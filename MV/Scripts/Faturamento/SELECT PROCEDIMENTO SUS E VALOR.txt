@@ -1,0 +1,6 @@
+--tras os valores e procedimentos sus
+select procedimento_sus.cd_procedimento, procedimento_sus.ds_procedimento, procedimento_sus_valor.vl_total_internacao as VALOR
+from dbamv.procedimento_sus
+inner join procedimento_sus_valor on procedimento_sus_valor.cd_procedimento = procedimento_sus.cd_procedimento 
+group by procedimento_sus.cd_procedimento, procedimento_sus.ds_procedimento, procedimento_sus_valor.vl_total_internacao
+order by  procedimento_sus.cd_procedimento, procedimento_sus.ds_procedimento, procedimento_sus_valor.vl_total_internacao

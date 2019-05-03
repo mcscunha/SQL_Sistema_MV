@@ -1,0 +1,10 @@
+SELECT cidade.nm_cidade, count(CIDADE.cd_CIDADE) from cidade
+inner join paciente on paciente.cd_cidade = cidade.cd_cidade
+inner join atendime on atendime.cd_paciente = paciente.cd_paciente
+INNER JOIN ATE_MOTIVO ON ATENDIME.cd_atendimento = ATE_MOTIVO.cd_atendimento
+INNER JOIN MOT_ENT ON ATE_MOTIVO.cd_mot_ent = MOT_ENT.CD_MOT_ENT
+where  MOT_ENT.CD_MOT_ENT = '66' 
+AND ATENDIME.DT_ATENDIMENTO between  to_date('01/01/2012', 'dd/mm/yyyy') and
+                              to_date('15/10/2012', 'dd/mm/yyyy')
+GROUP BY cidade.NM_cidade, CIDADE.CD_CIDADE 
+ORDER BY cidade.NM_cidade

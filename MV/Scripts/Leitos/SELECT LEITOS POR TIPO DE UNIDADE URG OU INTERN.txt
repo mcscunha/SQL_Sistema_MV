@@ -1,0 +1,4 @@
+select count(leito.cd_leito), unid_int.tp_unid_int from leito
+inner join unid_int on unid_int.cd_unid_int = leito.cd_unid_int
+where leito.dt_desativacao is null
+group by unid_int.tp_unid_int

@@ -1,0 +1,4 @@
+select * 
+FROM dbamv.SOLICITACAO_OS
+where  dt_execucao is null
+order by dt_pedido

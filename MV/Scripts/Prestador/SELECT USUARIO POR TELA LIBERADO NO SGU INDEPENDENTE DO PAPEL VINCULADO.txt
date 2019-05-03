@@ -1,0 +1,32 @@
+--pesquisa por tela 
+ select papel.cd_papel, papel.ds_papel, dbasgu.modulos.cd_modulo, dbasgu.papel_usuarios.cd_usuario, dbasgu.usuarios.nm_usuario, 
+          dbasgu.modulos.sn_ativo_rel_especifico from dbasgu.papel
+      inner join dbasgu.papel_usuarios on dbasgu.papel_usuarios.cd_papel = papel.cd_papel --VINCULO DE CHAVES ESTRANGEIRAS EXISTENTES EM OUTRAS TABELAS PARA BUSCAR OS DADOS
+      inner join dbasgu.usuarios on dbasgu.usuarios.cd_usuario = dbasgu.papel_usuarios.cd_usuario
+      inner join dbasgu.papel_mod on dbasgu.papel_mod.cd_papel = dbasgu.papel_usuarios.cd_papel
+      inner join dbasgu.modulos on dbasgu.modulos.cd_modulo = dbasgu.papel_mod.cd_modulo
+      inner join dbasgu.mod_sis on dbasgu.mod_sis.cd_modulo = dbasgu.modulos.cd_modulo
+      inner join dbasgu.sistema on dbasgu.sistema.cd_sistema = dbasgu.mod_sis.cd_sistema      
+      where dbasgu.modulos.sn_ativo_rel_especifico = 'S' --CD_MODULO ATIVO OU LIBERADO. N=NAO / S=SIM
+      AND MODULOS.CD_MODULO = 'R_OBITOS_UNID_CONV' --DESCREVER O NOME DA TELA QUE ESTOU QUERENDO SABER SE ESTA LIBERADO OU NÃO      
+      order by dbasgu.papel_usuarios.cd_usuario --ORDENAR POR CD_USUARIO
+
+
+
+
+--pesquisa por papel
+  select papel.cd_papel, papel.ds_papel, /*dbasgu.modulos.cd_modulo,*/ dbasgu.papel_usuarios.cd_usuario, dbasgu.usuarios.nm_usuario, 
+          dbasgu.modulos.sn_ativo_rel_especifico from dbasgu.papel
+      inner join dbasgu.papel_usuarios on dbasgu.papel_usuarios.cd_papel = papel.cd_papel --VINCULO DE CHAVES ESTRANGEIRAS EXISTENTES EM OUTRAS TABELAS PARA BUSCAR OS DADOS
+      inner join dbasgu.usuarios on dbasgu.usuarios.cd_usuario = dbasgu.papel_usuarios.cd_usuario
+      inner join dbasgu.papel_mod on dbasgu.papel_mod.cd_papel = dbasgu.papel_usuarios.cd_papel
+      inner join dbasgu.modulos on dbasgu.modulos.cd_modulo = dbasgu.papel_mod.cd_modulo
+      inner join dbasgu.mod_sis on dbasgu.mod_sis.cd_modulo = dbasgu.modulos.cd_modulo
+      inner join dbasgu.sistema on dbasgu.sistema.cd_sistema = dbasgu.mod_sis.cd_sistema      
+      where dbasgu.modulos.sn_ativo_rel_especifico = 'S' --CD_MODULO ATIVO OU LIBERADO. N=NAO / S=SIM
+  --    AND MODULOS.CD_MODULO = 'M_ADMIN_EXA_LAB' --DESCREVER O NOME DA TELA QUE ESTOU QUERENDO SABER SE ESTA LIBERADO OU NÃO   
+      and dbasgu.papel_usuarios.cd_papel = 16 or dbasgu.papel_usuarios.cd_papel = 15 or dbasgu.papel_usuarios.cd_papel = 14  
+      or dbasgu.papel_usuarios.cd_papel = 17 
+      group by papel.cd_papel,papel.ds_papel, dbasgu.papel_usuarios.cd_usuario, dbasgu.usuarios.nm_usuario, dbasgu.modulos.sn_ativo_rel_especifico
+      order by dbasgu.papel_usuarios.cd_usuario --ORDENAR POR CD_USUARIO
+      

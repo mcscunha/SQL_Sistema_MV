@@ -1,0 +1,8 @@
+select produto.cd_produto, produto.ds_produto, est_pro.cd_estoque from produto, est_pro
+where produto.cd_produto = est_pro.cd_produto
+/*and produto.cd_estoque = est_pro.cd_estoque*/
+and est_pro.cd_estoque = '18'
+and produto.sn_bloqueio_de_compra = 'N'
+/*and cota_setor.cd_setor = '16'*/
+/*and cota_setor.sn_bloqueia is null*/
+order by produto.ds_produto

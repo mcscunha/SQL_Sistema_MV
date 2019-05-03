@@ -1,0 +1,32 @@
+SELECT A.CD_AVISO_CIRURGIA,
+       A.CD_PACIENTE, 
+       A.NM_PACIENTE,
+       d.DS_CIRURGIA,
+       e.NM_PRESTADOR,
+       g.DS_ESPECIALID, 
+       f.DS_ATI_MED,
+       A.DT_INICIO_CIRURGIA,
+       A.DT_FIM_CIRURGIA
+       
+       
+FROM AVISO_CIRURGIA A,
+     PRESTADOR_AVISO B,
+     CIRURGIA_AVISO C,
+     cirurgia d,
+     prestador e,
+     especialid g,
+     ATI_MED f
+                     
+WHERE e.cd_prestador = b.cd_prestador 
+  and c.cd_especialid = g.cd_especialid
+  and d.cd_cirurgia = c.cd_cirurgia
+  and b.cd_aviso_cirurgia = a.cd_aviso_cirurgia
+  AND c.CD_aviso_CIRUrGIA = a.CD_aviso_CIRURGIA
+  and b.CD_ATI_MED = f.CD_ATI_MED
+  and A.TP_SITUACAO ='R'
+  AND DT_REALIZACAO between  to_date('01/03/2012', 'dd/mm/yyyy') and to_date('31/08/2012', 'dd/mm/yyyy')
+  order by DT_REALIZACAO
+  
+  
+ 
+  

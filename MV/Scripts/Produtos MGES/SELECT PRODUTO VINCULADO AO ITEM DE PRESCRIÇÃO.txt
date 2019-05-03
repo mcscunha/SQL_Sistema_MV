@@ -1,0 +1,3 @@
+select tip_presc.cd_tip_presc, tip_presc.ds_tip_presc, produto.cd_produto from tip_presc, produto
+where tip_presc.cd_produto = produto.cd_produto
+and produto.cd_produto = 18545

@@ -1,0 +1,12 @@
+select tip_presc.cd_tip_presc, tip_presc.ds_tip_presc, exa_rx.cd_exa_rx, exa_rx.ds_exa_rx, exa_rx.CD_PROCEDIMENTO_SIA, exa_rx.CD_PROCEDIMENTO_SIH
+from tip_presc
+inner join exa_rx on tip_presc.cd_exa_rx = exa_rx.cd_exa_rx
+inner join tip_esq on tip_esq.cd_tip_esq = tip_presc.cd_tip_esq
+where tip_presc.sn_ativo = 'S'
+--and tip_presc.ds_tip_presc like 'TOMOGRAFIA COMPUT%'
+--OR tip_presc.ds_tip_presc like 'ULTRASSON%'
+--OR tip_presc.ds_tip_presc like 'RESSONANCIA%'
+--OR tip_presc.ds_tip_presc like 'COLONOSC%'
+order by tip_presc.ds_tip_presc
+
+

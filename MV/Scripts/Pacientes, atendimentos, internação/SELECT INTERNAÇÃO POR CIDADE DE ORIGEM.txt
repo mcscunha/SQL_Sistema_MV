@@ -1,0 +1,8 @@
+SELECT COUNT(PACIENTE.CD_PACIENTE), CIDADE.nm_cidade FROM PACIENTE
+INNER JOIN ATENDIME ON ATENDIME.cd_paciente = PACIENTE.cd_paciente
+INNER JOIN CIDADE ON PACIENTE.cd_cidade = CIDADE.cd_cidade
+WHERE ATENDIME.tp_atendimento = 'I'
+AND ATENDIME.cd_convenio = '1'
+AND ATENDIME.dt_atendimento between to_date('01/01/2013', 'dd/mm/yyyy') and to_date('31/08/2013', 'dd/mm/yyyy')
+GROUP BY  CIDADE.nm_cidade
+ORDER BY CIDADE.nm_cidade

@@ -1,0 +1,9 @@
+select atendime.cd_atendimento as Atendimento, paciente.nm_paciente As Paciente, atendime.hr_atendimento as Data, especialid.ds_especialid as Especialidade
+from paciente
+inner join atendime on atendime.cd_paciente = paciente.cd_paciente
+inner join especialid on especialid.cd_especialid = atendime.cd_especialid
+where (atendime.cd_especialid = 11 or atendime.cd_especialid = 33)
+and atendime.DT_ATENDIMENTO between  to_date('17/10/2010', 'dd/mm/yyyy') 
+                          and to_date('17/10/2010', 'dd/mm/yyyy') 
+ORDER BY atendime.hr_atendimento
+

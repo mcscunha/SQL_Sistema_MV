@@ -1,0 +1,20 @@
+select paciente.cd_paciente, atendime.cd_atendimento, paciente.nm_paciente, cidade.nm_cidade, atendime.cd_convenio,ATENDIME.DT_ATENDIMENTO, 
+especialid.ds_especialid
+from dbamv.paciente
+--inner join paciente on paciente.cd_cidade = cidade.cd_cidade
+inner join atendime on atendime.cd_paciente = paciente.cd_paciente
+inner join especialid on especialid.cd_especialid = atendime.cd_especialid
+inner join cidade on cidade.cd_cidade = paciente.cd_cidade
+--inner join especialid on especialid.cd_especialid = atendime.cd_especialid
+--INNER JOIN ATE_MOTIVO ON ATENDIME.cd_atendimento = ATE_MOTIVO.cd_atendimento
+--INNER JOIN MOT_ENT ON ATE_MOTIVO.cd_mot_ent = MOT_ENT.CD_MOT_ENT
+where ATENDIME.DT_ATENDIMENTO between  to_date('01/01/2013', 'dd/mm/yyyy') and
+                              to_date('23/12/2013', 'dd/mm/yyyy')
+                              and atendime.cd_convenio = 1
+                              --or atendime.cd_convenio = 2)
+                              and atendime.cd_especialid = 33
+                              and (paciente.cd_cidade = 6044
+                             or paciente .cd_cidade = 11724)
+GROUP BY paciente.cd_paciente, atendime.cd_atendimento, paciente.nm_paciente, cidade.nm_cidade, atendime.cd_convenio,ATENDIME.DT_ATENDIMENTO,
+ especialid.ds_especialid
+ORDER BY atendime.cd_convenio, ATENDIME.DT_ATENDIMENTO

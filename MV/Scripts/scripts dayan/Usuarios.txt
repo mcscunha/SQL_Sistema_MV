@@ -1,0 +1,18 @@
+--CRIAR USUARIOS
+INSERT INTO dbasgu.usuarios (SELECT 'LOGIN.USUARIO', 'NOME COMPLETO', ds_observacao, ramal, tp_privilegio, nr_id_usuario, 'LOGIN.USUARIO', cd_papel, tp_status, 'CODIGO_PRESTADOR', user_id_ora_app, sn_ativo, sn_senha_plogin, sn_abre_fecha_conta, cpf, sn_recebe_msg_expira_chave, sn_altera_auditoria_in_loco, sn_cadastra_paciente, sn_altera_cadastro_paciente, dt_nascimento, cd_matricula, ds_email FROM dbasgu.usuarios WHERE cd_usuario = 'USUARIO MODELO - FULANO.TAL') ;
+--VINCULO EMPRESA
+insert into usuario_multi_empresa (cd_multi_empresa, cd_id_usuario) values ('CODIGO_EMPRESA', 'LOGIN.USUARIO') ;
+--VINCULO PAPEL
+insert into dbasgu.papel_usuarios (cd_usuario, cd_papel, tp_papel) values ('LOGIN.USUARIO', 'CODIGO_PAPEL', 'P  - PRINCIPAL') ;
+insert into dbasgu.papel_usuarios (cd_usuario, cd_papel, tp_papel) values ('LOGIN.USUARIO', 'CODIGO_PAPEL', 'A - AUXILIAR') ;
+--VINCULO ESTOQUE
+INSERT INTO usu_estoque (SELECT CD_ESTOQUE, 'LOGIN.USUARIO', sn_autoriza_excl_solicitacao, sn_autoriza_alte_solicitacao, tp_usuario, sn_permite_alt_ord_compras, sn_alt_vl_unit_oc, vl_perc_var_vl_unit, sn_trans_quant_cota, sn_autoriza_alte_movimentacao, sn_autoriza_excl_movimentacao FROM usu_estoque WHERE CD_ID_DO_USUARIO = 'SCMV') ;
+--VINCULO UNID_INTERNA
+INSERT INTO USUARIO_UNID_INT (SELECT CD_UNID_INT, 'LOGIN.USUARIO', CD_SETOR FROM USUARIO_UNID_INT WHERE CD_ID_USUARIO = 'SCMV') ;
+--VINCULO SETOR EXAME
+INSERT INTO usuarios_set_exa (SELECT cd_set_exa, 'LOGIN.USUARIO' FROM usuarios_set_exa WHERE nm_usuario = 'SCMV') ; --SELECT * FROM usuarios_set_exa
+--VINCULO CENTRO CIRURGICO
+INSERT INTO USU_CEN_CIR (SELECT cd_cen_cir, 'LOGIN.USUARIO' FROM USU_CEN_CIR WHERE nm_usuario = 'SCMV') ;--SELECT * FROM USU_CEN_CIR
+
+
+USUÁRIO TEC ENF:LORENERAMOS

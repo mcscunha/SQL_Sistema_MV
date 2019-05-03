@@ -1,0 +1,6 @@
+SELECT * 
+FROM DBAMV.IMPRESSAO
+
+--DELETE DBAMV.IMPRESSAO
+where destino = 'LAB_HMSA'
+and dt_impressao is not null

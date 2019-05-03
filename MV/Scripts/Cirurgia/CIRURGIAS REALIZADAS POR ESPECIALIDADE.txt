@@ -1,0 +1,49 @@
+SELECT A.CD_AVISO_CIRURGIA,
+       A.CD_PACIENTE, 
+       e.DS_ESPECIALID, 
+       A.DT_REALIZACAO,
+       d.DS_CIRURGIA
+FROM AVISO_CIRURGIA A,
+     CIRURGIA_AVISO C,
+     cirurgia d,
+     ESPECIALID e        
+WHERE c.cd_especialid = e.cd_especialid
+  and d.cd_cirurgia = c.cd_cirurgia
+  AND c.CD_aviso_CIRUrGIA = a.CD_aviso_CIRURGIA
+  and A.TP_SITUACAO ='R'
+  AND DT_REALIZACAO between  to_date('01/03/2012', 'dd/mm/yyyy') and to_date('31/08/2012', 'dd/mm/yyyy')
+  order by DT_REALIZACAO 
+
+
+====================================================================================================
+
+
+SELECT e.DS_ESPECIALID,
+count (e.ds_especialid)
+FROM AVISO_CIRURGIA A,
+     CIRURGIA_AVISO C,
+     cirurgia d,
+     ESPECIALID e             
+WHERE c.cd_especialid = e.cd_especialid
+  and d.cd_cirurgia = c.cd_cirurgia
+  AND a.CD_aviso_CIRURGIA = c.CD_aviso_CIRURGIA
+  and A.TP_SITUACAO ='R'
+  AND DT_REALIZACAO between  to_date('01/01/2010', 'dd/mm/yyyy') and to_date('31/12/2010', 'dd/mm/yyyy')
+group by e.DS_ESPECIALID
+order by  e.DS_ESPECIALID
+
+========================================================================================================
+
+SELECT e.DS_ESPECIALID,
+count (*)
+FROM AVISO_CIRURGIA A,
+     CIRURGIA_AVISO C,
+     cirurgia d,
+     ESPECIALID e             
+WHERE c.cd_especialid = e.cd_especialid
+  and d.cd_cirurgia = c.cd_cirurgia
+  AND a.CD_aviso_CIRURGIA = c.CD_aviso_CIRURGIA
+  and A.TP_SITUACAO ='R'
+  AND DT_REALIZACAO between  to_date('01/01/2011', 'dd/mm/yyyy') and to_date('01/12/2011', 'dd/mm/yyyy')
+group by e.DS_ESPECIALID
+order by  e.DS_ESPECIALID

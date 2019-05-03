@@ -1,0 +1,10 @@
+select pre_med.DT_pre_med as DATA_PRESCRIÇÃO, prestador.cd_prestador AS CODIGO_PRESTADOR, 
+       prestador.nm_prestador AS NOME_PRESTADOR, count(pre_med.cd_atendimento) as QUANTIDADE_PACIENTES, COUNT(pre_med.cd_pre_med) as QUANTIDADE_PRESCRIÇÃO
+from prestador
+ inner join pre_med on pre_med.cd_prestador = prestador.cd_prestador
+ inner join atendime on atendime.cd_atendimento = pre_med.cd_atendimento
+where prestador.cd_prestador = 127
+  AND pre_med.DT_pre_med between  to_date('01/02/2013', 'dd/mm/yyyy') 
+                              and to_date('28/02/2013', 'dd/mm/yyyy')
+group by pre_med.dt_pre_med, prestador.cd_prestador, prestador.nm_prestador-- , pre_med.cd_atendimento
+order by pre_med.DT_pre_med--, prestador.nm_prestador 

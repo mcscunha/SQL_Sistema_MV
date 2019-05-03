@@ -1,0 +1,41 @@
+--saída de dados
+select * from mvintegra.imv_mensagem_saida_formatada
+where dh_criacao_msg >= '25/03/2014'
+and cd_imv_mensagem_saida_formtd = 30200
+
+--entrada de dados
+select * from mvintegra.imv_log_requisicao
+where dh_criacao_log >= '13/12/2013'
+and cd_imv_log_requisicao = 15268
+
+hora exame cabeçalho
+
+--entrada de dados
+select * from mvintegra.imv_log_requisicao
+where --dh_criacao_log >= '02/04/2014' and 
+cd_imv_log_requisicao = 16255
+ORDER BY DH_CRIACAO_LOG
+
+select ped_lab.cd_ped_lab, ped_lab.dt_pedido, ped_lab.cd_atendimento from ped_lab
+
+select * from ped_lab
+
+select * from exa_lab.
+
+
+SELECT CD_EXA_LAB,itped_lab.dt_integra,CD_PED_LAB,CD_ITPED_LAB,DS_RESULTADO,DS_CAMPO_LIVRE,
+CD_SET_EXA,CD_VERSAO,CD_MATERIAL FROM DBAMV.ITPED_LAB 
+where cd_exa_lab = 501
+and itped_lab.dt_integra between to_date('01/04/2014', 'dd/mm/yyyy') and to_date('04/04/2014', 'dd/mm/yyyy')
+order by itped_lab.dt_integra
+
+select * from itped_lab
+where cd_ped_lab = 102758 --where itped_lab.dt_assinado between to_date('02/04/2014', 'dd/mm/yyyy') and to_date('02/04/2014', 'dd/mm/yyyy')
+order by dt_integra
+
+select * from mvintegra.imv_solicitacao_sadt
+where mvintegra.imv_solicitacao_sadt.dt_gerado  between to_date('03/04/2014', 'dd/mm/yyyy') and to_date('04/04/2014', 'dd/mm/yyyy')
+and mvintegra.imv_solicitacao_sadt.cd_pedido = 102758
+order by mvintegra.imv_solicitacao_sadt.dt_gerado
+
+SELECT * FROM MVINTEGRA.INTEGRA_ENTRADA_SOLIC_SADT

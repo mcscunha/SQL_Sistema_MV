@@ -1,0 +1,16 @@
+SELECT TO_CHAR (A.data_do_atendimento, 'MM/YYYY') MES_ANO, 
+       S.ds_servico, 
+       COUNT (A.codigo_do_atendimento) Qtde_Atendimento 
+FROM   VDIC_ATENDIMENTO A, 
+       SERVICO S
+WHERE  A.codigo_do_servico = S.cd_servico
+       and TO_CHAR (A.data_do_atendimento, 'MM/YYYY') between '01/2011' and '08/2011'
+
+GROUP BY
+       TO_CHAR (A.data_do_atendimento, 'MM/YYYY'), 
+       A.codigo_do_servico, 
+       S.ds_servico, 
+       A.tipo_do_atendimento
+order by
+       s.ds_servico,
+       TO_CHAR (A.data_do_atendimento, 'MM/YYYY')

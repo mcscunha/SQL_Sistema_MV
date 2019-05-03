@@ -1,0 +1,17 @@
+select atendime.cd_atendimento, paciente.nm_paciente, paciente.dt_nascimento, atendime.cd_especialid, atendime.hr_atendimento 
+from dbamv.paciente
+--inner join paciente on paciente.cd_cidade = cidade.cd_cidade
+inner join atendime on atendime.cd_paciente = paciente.cd_paciente
+--INNER JOIN ATE_MOTIVO ON ATENDIME.cd_atendimento = ATE_MOTIVO.cd_atendimento
+--INNER JOIN MOT_ENT ON ATE_MOTIVO.cd_mot_ent = MOT_ENT.CD_MOT_ENT
+where atendime.cd_especialid = 42 
+and atendime.tp_atendimento = 'A' -- Tipo de atendimento U, I, A e E
+/*
+and ATENDIME.DT_ATENDIMENTO between  to_date('03/06/2014', 'dd/mm/yyyy') and
+                              to_date('03/06/2014', 'dd/mm/yyyy')
+*/
+GROUP BY atendime.cd_atendimento, paciente.nm_paciente, atendime.cd_especialid, paciente.dt_nascimento, atendime.hr_atendimento
+ORDER BY  atendime.hr_atendimento;
+
+select tp_atendimento from atendime
+group by tp_atendimento;

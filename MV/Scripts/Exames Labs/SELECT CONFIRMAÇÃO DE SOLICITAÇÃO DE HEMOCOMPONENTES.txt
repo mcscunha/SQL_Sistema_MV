@@ -1,0 +1,13 @@
+SELECT 
+B.CD_SOLIC_SANGUE,
+A.CD_ATENDIMENTO,
+C.NM_PACIENTE,
+B.cd_sangue_derivados,
+E.DS_SANGUE_DERIVADOS,
+B.QT_REALIZADO,
+B.DT_REALIZADO,
+B.NR_DIFEP 
+FROM SOLIC_SANGUE A, IT_SOLIC_SANGUE B,  PACIENTE C, ATENDIME D, SANGUE_DERIVADOS E
+WHERE C.cd_paciente = D.cd_paciente AND A.cd_atendimento = D.cd_atendimento 
+AND B.cd_solic_sangue = A.cd_solic_sangue AND B.cd_sangue_derivados = E.cd_sangue_derivados AND B.SN_REALIZADO = 'S'
+ORDER BY DT_REALIZADO

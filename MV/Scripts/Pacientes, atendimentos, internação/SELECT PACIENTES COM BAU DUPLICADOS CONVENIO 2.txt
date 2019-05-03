@@ -1,0 +1,11 @@
+   select paciente.cd_paciente, atendime.cd_atendimento, paciente.nm_paciente, especialid.ds_especialid, atendime.dt_atendimento, 
+   atendime.cd_convenio, prestador.nm_prestador /*count(especialid.ds_especialid),*/
+   --round(((sysdate - dt_nascimento)/365.25)-0.5) as idade, atendime.dt_atendimento
+   from paciente 
+   inner join atendime on atendime.cd_paciente = paciente.cd_paciente
+   inner join especialid on especialid.cd_especialid = atendime.cd_especialid
+   inner join prestador on prestador.cd_prestador = atendime.cd_prestador
+   where --round(((sysdate - dt_nascimento)/365.25)-0.5) <= 14 and 
+   atendime.dt_atendimento between  to_date('01/09/2013', 'dd/mm/yyyy') and to_date('30/09/2013', 'dd/mm/yyyy')
+   order by paciente.nm_paciente, atendime.dt_atendimento, paciente.cd_paciente, atendime.cd_convenio DESC
+   

@@ -1,0 +1,8 @@
+
+insert into DBAMV.configuracao_usuario_setor (CD_CONFIGURACAO_USUARIO_SETOR  , CD_USUARIO,TP_LISTA,CD_SISTEMA)
+values ( DBAMV.seq_configuracao_usuario_setor.nextval,'CAMILOCOSTA','LP','MVSACR');
+
+insert into DBAMV.ASSOCIACAO_CONFIG_USU_SET (CD_SETOR  , CD_CONFIGURACAO_USUARIO_SETOR)
+values (18,DBAMV.seq_configuracao_usuario_setor.CURRVAL); 
+
+commit

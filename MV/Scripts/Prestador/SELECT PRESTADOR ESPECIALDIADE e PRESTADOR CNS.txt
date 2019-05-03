@@ -1,0 +1,15 @@
+--prestador, numero cns, carga horaria e especialidade
+select prestador.cd_prestador, prestador.nm_prestador, prestador.NR_CNS, esp_med.NR_CARGA_HORARIA, especialid.ds_especialid
+FROM DBAMV.PRESTADOR
+inner join esp_med on esp_med.cd_prestador = prestador.cd_prestador
+inner join especialid on esp_med.cd_especialid = especialid.cd_especialid
+--where nr_cns is null
+order by prestador.nm_prestador
+
+
+--prestador e sua especialidade
+select prestador.cd_prestador, prestador.nm_prestador, esp_med.cd_especialid, especialid.ds_especialid
+from prestador
+inner join esp_med on esp_med.cd_prestador = prestador.cd_prestador
+inner join especialid on especialid.cd_especialid = esp_med.cd_especialid
+where esp_med.cd_especialid = 27 or esp_med.cd_especialid = 28

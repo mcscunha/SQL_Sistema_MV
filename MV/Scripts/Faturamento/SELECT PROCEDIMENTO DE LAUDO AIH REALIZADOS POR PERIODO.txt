@@ -1,0 +1,5 @@
+select dbamv.laudo_aih.cd_procedimento as procedimento, count(dbamv.laudo_aih.cd_procedimento) as quantidade from dbamv.Laudo_AIH/*, procedimento*/
+--inner join procedimento on dbamv.laudo_aih.cd_procedimento = dbamv.procedimento.cd_procedimento
+where dbamv.laudo_aih.DT_EMISSAO between to_date('01/01/2013', 'dd/mm/yyyy') and to_date('31/03/2013', 'dd/mm/yyyy')
+  group by dbamv.laudo_aih.cd_procedimento
+order by  dbamv.laudo_aih.cd_procedimento

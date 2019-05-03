@@ -1,0 +1,8 @@
+SELECT laudo_aih.CD_ATENDIMENTO,laudo_aih.DT_EMISSAO,laudo_aih.CD_PRESTADOR_SOL,laudo_aih.CD_CARATER_ATENDIMENTO,
+laudo_aih.CD_PROCEDIMENTO,laudo_aih.CD_ESPEC_SUS,laudo_aih.CD_PRESTADOR,laudo_aih.CD_CID_PRINCIPAL,
+laudo_aih.CD_CID_SECUNDARIO,laudo_aih.CD_CID_CAUSAS_ASSOCIADAS
+FROM dbamv.LAUDO_AIH 
+inner join atendime on atendime.cd_atendimento = laudo_aih.cd_atendimento
+WHERE laudo_aih.DT_EMISSAO between to_date('01/02/2014','dd/mm/rrrr') and to_date('10/04/2014','dd/mm/rrrr')
+
+order by laudo_aih.DT_EMISSAO, laudo_aih.cd_atendimento

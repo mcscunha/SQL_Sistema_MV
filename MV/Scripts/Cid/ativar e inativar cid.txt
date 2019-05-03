@@ -1,0 +1,23 @@
+select opc from dbamv.cid where cd_cid = 'S628'
+
+update dbamv.cid set opc = 'N' where cd_cid = 'S627'
+
+SELECT * FROM dbamv.cid where cd_cid = 'S627'
+
+update dbamv.cid set opc = NULL where cd_cid = 'S627'
+
+select OPC, SN_ATIVO from dbamv.cid where cd_cid in ('S626','S627','S628')
+
+
+
+--ativar
+update dbamv.cid set opc = NULL, SN_ATIVO = 'S' where cd_cid in ('S82', 'K35', 'S72', 'S66')
+/
+COMMIT
+/
+
+--inativar
+update dbamv.cid set opc = 'N', SN_ATIVO = 'N' where cd_cid in ('S82', 'K35', 'S72', 'S66')
+/
+COMMIT
+/

@@ -1,0 +1,14 @@
+select 
+aviso_cirurgia.cd_paciente as Prontuario, 
+atendime.cd_atendimento as Atendimento, 
+aviso_cirurgia.nm_paciente as Nome_paciente, 
+atendime.hr_atendimento as Data_Atendimento, 
+aviso_cirurgia.dt_realizacao as Data_Cirurgia, 
+to_date(aviso_cirurgia.dt_realizacao) - to_date(atendime.hr_atendimento) as dias --data cirurgia - data de atendimento
+from aviso_cirurgia
+inner join atendime on aviso_cirurgia.cd_atendimento = atendime.cd_atendimento
+where aviso_cirurgia.tp_situacao = 'R' -- R = Cirurgia Realizada
+--and aviso_cirurgia.cd_paciente = 111730
+and atendime.hr_atendimento between to_date('01/06/2014', 'dd/mm/yyyy') and to_date('30/06/2014', 'dd/mm/yyyy')
+--and DT_REALIZACAO between  to_date('01/06/2014', 'dd/mm/yyyy') and to_date('30/06/2014', 'dd/mm/yyyy')
+order by atendime.hr_atendimento, aviso_cirurgia.dt_realizacao

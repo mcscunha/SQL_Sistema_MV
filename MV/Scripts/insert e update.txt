@@ -1,0 +1,14 @@
+insert into empresa_produto(cd_produto, cd_multi_empresa)
+values(not null, 1) where cd_multi_empresa is not null
+
+UPDATE empresa_produto
+SET cd_multi_empresa = 1
+WHERE cd_multi_empresa is not null
+and cd_produto = 18916
+
+
+--cd_procedimento = 0205010016
+UPDATE eve_siasus
+SET  cd_prestador = 7, cd_cbo_prestador = 225120
+WHERE cd_procedimento = 0205010016
+and eve_siasus.cd_fat_sia = 71

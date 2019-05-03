@@ -1,0 +1,66 @@
+SELECT  ATENDIME.CD_CONVENIO 
+       ,CONVENIO.NM_CONVENIO 
+       ,DECODE(CONVENIO.TP_CONVENIO,'A', EXA_LAB.CD_procedimento_sia, 
+                                    'C', EXA_LAB.CD_PRO_FAT, 
+                                    'P', EXA_LAB.CD_PRO_FAT, 
+                                    'H', EXA_LAB.CD_PROCEDIMENTO_SIH ) 
+CD_EXAME 
+       ,EXA_LAB.NM_EXA_LAB 
+       ,COUNT(* ) QTD_EXAME 
+        
+FROM     DBAMV.ATENDIME 
+              ,DBAMV.CONVENIO 
+              ,DBAMV.PED_LAB 
+              ,DBAMV.ITPED_LAB 
+              ,DBAMV.EXA_LAB 
+WHERE ATENDIME.CD_MULTI_EMPRESA = 1 
+AND     TRUNC(ITPED_LAB.DT_LAUDO) BETWEEN to_date('18/07/2013','dd/mm/yyyy') 
+AND to_date('18/08/2013','dd/mm/yyyy') 
+AND       ATENDIME.CD_ATENDIMENTO  =  PED_LAB.CD_ATENDIMENTO 
+AND       PED_LAB.CD_CONVENIO  =  CONVENIO.CD_CONVENIO 
+AND       PED_LAB.CD_PED_LAB  =  ITPED_LAB.CD_PED_LAB 
+AND       ITPED_LAB.CD_EXA_LAB  =  EXA_LAB.CD_EXA_LAB 
+AND       EXISTS  (SELECT 1 
+                             FROM  DBAMV.USUARIOS_SET_EXA 
+                             WHERE USUARIOS_SET_EXA.CD_SET_EXA  = 
+ITPED_LAB.CD_SET_EXA 
+                             AND USUARIOS_SET_EXA.NM_USUARIO = USER) 
+AND  ATENDIME.CD_MULTI_EMPRESA = 1 
+GROUP BY ATENDIME.CD_CONVENIO, CONVENIO.NM_CONVENIO,CONVENIO.TP_CONVENIO,EXA_LAB.CD_procedimento_sia, 
+        EXA_LAB.CD_PRO_FAT, EXA_LAB.CD_PRO_FAT, EXA_LAB.CD_PROCEDIMENTO_SIH, EXA_LAB.NM_EXA_LAB 
+       order by EXA_LAB.NM_EXA_LAB 
+        
+        
+        
+        
+--   SOMA
+        SELECT  
+       /*DECODE(CONVENIO.TP_CONVENIO,'A', EXA_LAB.CD_procedimento_sia, 
+                                    'C', EXA_LAB.CD_PRO_FAT, 
+                                    'P', EXA_LAB.CD_PRO_FAT, 
+                                    'H', EXA_LAB.CD_PROCEDIMENTO_SIH ) 
+CD_EXAME 
+       ,EXA_LAB.NM_EXA_LAB 
+       ,*/sum(COUNT(* )) QTD_EXAME 
+        
+FROM     DBAMV.ATENDIME 
+              ,DBAMV.CONVENIO 
+              ,DBAMV.PED_LAB 
+              ,DBAMV.ITPED_LAB 
+              ,DBAMV.EXA_LAB 
+WHERE ATENDIME.CD_MULTI_EMPRESA = 1 
+AND     TRUNC(ITPED_LAB.DT_LAUDO) BETWEEN to_date('18/07/2013','dd/mm/yyyy') 
+AND to_date('18/08/2013','dd/mm/yyyy') 
+AND       ATENDIME.CD_ATENDIMENTO  =  PED_LAB.CD_ATENDIMENTO 
+AND       PED_LAB.CD_CONVENIO  =  CONVENIO.CD_CONVENIO 
+AND       PED_LAB.CD_PED_LAB  =  ITPED_LAB.CD_PED_LAB 
+AND       ITPED_LAB.CD_EXA_LAB  =  EXA_LAB.CD_EXA_LAB 
+AND       EXISTS  (SELECT 1 
+                             FROM  DBAMV.USUARIOS_SET_EXA 
+                             WHERE USUARIOS_SET_EXA.CD_SET_EXA  = 
+ITPED_LAB.CD_SET_EXA 
+                             AND USUARIOS_SET_EXA.NM_USUARIO = USER) 
+AND  ATENDIME.CD_MULTI_EMPRESA = 1 
+GROUP BY ATENDIME.CD_CONVENIO, CONVENIO.NM_CONVENIO,CONVENIO.TP_CONVENIO,EXA_LAB.CD_procedimento_sia, 
+        EXA_LAB.CD_PRO_FAT, EXA_LAB.CD_PRO_FAT, EXA_LAB.CD_PROCEDIMENTO_SIH, EXA_LAB.NM_EXA_LAB 
+        order by EXA_LAB.NM_EXA_LAB

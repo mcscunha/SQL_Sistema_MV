@@ -1,0 +1,14 @@
+SELECT --TP_CLASSIFICACAO_XYZ
+*  
+FROM DBAMV.PRODUTO,DBAMV.Empresa_Produto
+WHERE DBAMV.Empresa_Produto.TP_CLASSIFICACAO_XYZ is not null
+and DBAMV.PRODUTO
+
+select * from DBAMV.Empresa_Produto
+where DBAMV.Empresa_Produto.TP_CLASSIFICACAO_XYZ is null or
+ DBAMV.Empresa_Produto.TP_CLASSIFICACAO_XYZ NOT IN('Y')
+
+--update DBAMV.Empresa_Produto
+--set DBAMV.Empresa_Produto.TP_CLASSIFICACAO_XYZ = 'Y'
+--where DBAMV.Empresa_Produto.TP_CLASSIFICACAO_XYZ is null or
+-- DBAMV.Empresa_Produto.TP_CLASSIFICACAO_XYZ NOT IN('Y')

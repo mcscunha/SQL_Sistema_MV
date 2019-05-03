@@ -1,0 +1,30 @@
+select estoque.cd_estoque       codigo_estoque
+         ,estoque.ds_estoque       descricao_estoque
+         ,estoque.cd_multi_empresa codigo_multi_empresa
+         ,multi_empresas.ds_multi_empresa descricao_multi_empresa
+         ,estoque.tp_estoque       tipo_estoque
+         ,estoque.cd_setor         codigo_setor
+         ,est_saldo.qt_estoque_atual qtd_estoque_atual
+         ,est_saldo.qt_estoque_doado qtd_estoque_doado
+         ,est_saldo.qt_estoque_maximo qtd_estoque_maximo
+         ,est_saldo.qt_estoque_minimo qtd_estoque_minimo
+         ,est_saldo.qt_estoque_virtual qtd_estoque_virtual
+         ,est_saldo.qt_ponto_de_pedido qtd_ponto_de_pedido
+         ,est_saldo.qt_consumo_mes qtd_consumo_mes
+         ,est_saldo.qt_estoque_reservado  qtd_estoque_reservado
+     from dbamv.estoque
+        ,dbamv.multi_empresas
+        ,(Select est_pro.cd_estoque,
+                 sum(est_pro.qt_estoque_atual) qt_estoque_atual,
+                 sum(est_pro.qt_estoque_doado) qt_estoque_doado,
+                 sum(est_pro.qt_estoque_maximo) qt_estoque_maximo,                 
+                 sum(est_pro.qt_estoque_minimo) qt_estoque_minimo,
+                 sum(est_pro.qt_estoque_virtual) qt_estoque_virtual,
+                 sum(est_pro.qt_ponto_de_pedido) qt_ponto_de_pedido,
+                 sum(est_pro.qt_consumo_mes) qt_consumo_mes,
+                 sum(est_pro.qt_estoque_reservado) qt_estoque_reservado
+            from dbamv.est_pro, dbamv.estoque e
+           where est_pro.cd_estoque = e.cd_estoque
+           group by est_pro.cd_estoque) Est_saldo
+    where estoque.cd_multi_empresa = multi_empresas.cd_multi_empresa
+      and estoque.cd_estoque = est_saldo.cd_estoque

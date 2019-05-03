@@ -1,0 +1,22 @@
+select nm_paciente as NomePaciente, dt_nascimento as DataNascimento, nm_mae as NomeMae, count(*) from paciente
+--where nr_cpf = nr_cpf
+--where nm_paciente = (select nm_paciente from paciente)
+group by nm_paciente, dt_nascimento, nm_mae
+having count (*) > 1
+order by nm_paciente
+
+
+
+
+select nm_paciente as NomePaciente, dt_nascimento as DataNascimento,  count(*) as QuantRepet from paciente
+group by nm_paciente, dt_nascimento
+having count (*) > 1
+order by nm_paciente
+
+
+
+
+select nm_mae, dt_nascimento,  count(*) from paciente
+group by nm_mae, dt_nascimento
+having count (*) > 1
+order by nm_paciente

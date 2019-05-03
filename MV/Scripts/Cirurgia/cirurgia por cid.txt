@@ -1,0 +1,14 @@
+-- cirurgia realizada por cid
+select aviso_cirurgia.cd_aviso_cirurgia, aviso_cirurgia.cd_paciente, aviso_cirurgia.cd_atendimento, aviso_cirurgia.nm_paciente, 
+cirurgia.cd_cirurgia, cirurgia.ds_cirurgia, aviso_cirurgia.cd_cid as cid_pre_oper, aviso_cirurgia.cd_cid_final as cid_pos_oper,  
+prestador.cd_prestador, prestador.nm_prestador, ati_med.ds_ati_med as atividade_médica, aviso_cirurgia.dt_realizacao
+from aviso_cirurgia
+inner join cirurgia_aviso on cirurgia_aviso.cd_aviso_cirurgia = aviso_cirurgia.cd_aviso_cirurgia
+inner join cirurgia on cirurgia.cd_cirurgia = cirurgia_aviso.cd_cirurgia
+inner join prestador_aviso on prestador_aviso.cd_aviso_cirurgia = cirurgia_aviso.cd_aviso_cirurgia
+inner join prestador on prestador.cd_prestador = prestador_aviso.cd_prestador
+inner join ati_med on ati_med.cd_ati_med = prestador_aviso.cd_ati_med
+--where (cd_cid = 'O458' or cd_cid = 'O450' or cd_cid = 'O441' or cd_cid = 'O440' or cd_cid = 'O439' or cd_cid = 'O438' or 
+--cd_cid = 'O459' or cd_cid = 'O469' or cd_cid = 'O460')
+and aviso_cirurgia.dt_realizacao is not null
+order by cd_aviso_cirurgia, aviso_cirurgia.dt_realizacao

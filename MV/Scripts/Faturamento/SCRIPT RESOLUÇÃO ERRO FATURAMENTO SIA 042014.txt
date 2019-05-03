@@ -1,0 +1,35 @@
+SELECT CD_EVENTOS,CD_SSM,CD_REMESSA,CD_ATENDIMENTO,CD_PACIENTE,DT_EVE_SIASUS,CD_PROCEDIMENTO,
+CD_CID_PRINCIPAL,CD_ORI_ATE,CD_SETOR,CD_SETOR_PRODUZIU,CD_PRESTADOR,CD_CBO_PRESTADOR,QT_LANCADA,
+CD_CARATER_ATENDIMENTO,CD_SERVICO,CD_DECENDIO,DT_DECENDIO,CD_UPS,CD_UNIDADE_REGIONAL,NR_AUTORIZACAO_GESTOR,
+CD_SERVICO_SUS,CD_CLASSIFICACAO_SUS,CD_EQUIPE_SF,NM_PACIENTE,CD_CIDADE,CD_PRESTADOR_PODE_TER,CD_SMS,
+CD_LOC_PROCED,CD_FORNECEDOR,SN_SOBRA,SN_PACOTE,NR_IDADE,NM_USUARIO,CD_FAT_SIA,CD_CONVENIO 
+FROM DBAMV.EVE_SIASUS.cd
+
+select cd_carater_atendimento FROM DBAMV.EVE_SIASUS
+
+remessa
+
+SELECT CD_FAT_SIA,DS_FAT_SIA,DT_PERIODO_INICIAL,DT_PERIODO_FINAL,LG_SITUACAO,DT_FECHAMENTO,
+HR_FECHAMENTO,TIPO_FATURA,NM_USUARIO_FECHOU,CD_MULTI_EMPRESA, cd_remessa FROM DBAMV.FAT_SIA
+where cd_fat_sia = 68
+
+SELECT CD_FAT_SIA,CD_REMESSA,DS_REMESSA FROM dbamv.remessa_bpa
+where cd_fat_sia = 68
+
+
+select count(*) from eve_siasus
+inner join remessa_bpa on remessa_bpa.cd_fat_sia = eve_siasus.cd_fat_sia
+where cd_carater_atendimento is null
+and remessa_bpa.cd_fat_sia = 68
+
+select cd_carater_atendimento from eve_siasus
+--select cd_carater_atendimento from eve_siasus
+inner join remessa_bpa on remessa_bpa.cd_fat_sia = eve_siasus.cd_fat_sia
+where remessa_bpa.cd_fat_sia = 68
+
+update eve_siasus set cd_carater_atendimento = 2
+where cd_carater_atendimento is null 
+and cd_fat_sia = 68
+
+select cd_carater_atendimento from carater_atendimento
+group by cd_carater_atendimento

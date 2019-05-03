@@ -1,0 +1,6 @@
+select cota_setor.cd_produto, produto.ds_produto from cota_setor, produto
+where cota_setor.cd_produto = produto.cd_produto
+and cota_setor.cd_estoque = '4'
+and cota_setor.cd_setor = '16'
+/*and cota_setor.sn_bloqueia is null*/
+order by produto.ds_produto

@@ -1,0 +1,12 @@
+SELECT PRESTADOR.CD_PRESTADOR, PRESTADOR.NM_PRESTADOR, ESPECIALID.ds_especialid, PRESTADOR.tp_situacao
+FROM PRESTADOR 
+INNER JOIN ESP_MED ON ESP_MED.cd_prestador = PRESTADOR.cd_prestador 
+INNER JOIN ESPECIALID ON ESPECIALID.cd_especialid = ESP_MED.cd_especialid
+inner join tip_presta on prestador.cd_tip_presta = tip_presta.cd_tip_presta
+--WHERE ESPECIALID.CD_ESPECIALID = 11
+WHERE PRESTADOR.cd_tip_presta = 8
+AND PRESTADOR.tp_situacao = 'A'
+order by PRESTADOR.nm_prestador
+
+select cd_especialid, ds_especialid from especialid
+order by ds_especialid

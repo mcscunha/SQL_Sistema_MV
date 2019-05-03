@@ -1,0 +1,8 @@
+SIMPRO
+'DS_SIMPRO' := inicio = 31,   com 100 posicoes
+'DT_SIMPRO' := inicio = 131, com 8    posicoes
+'VLR'           := inicio = 140, com 10  posicoes
+'QT_EMB'      := inicio = 210, com 7    posicoes
+'DS_LABO'    := inicio = 230, com 20  posicoes
+'CD_SIMPRO' := inicio = 250, com 10  posicoes 
+'TUSS'         := inicio = 319, com 8    posicoes
