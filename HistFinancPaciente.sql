@@ -1,44 +1,54 @@
-SELECT DISTINCT
-    a.cd_reg_amb,
-    a.cd_lancamento,
-    b.cd_atendimento,
-    a.cd_pro_fat,
-    g.dt_alta,
-    i.ds_pro_fat,
-    g.cd_paciente,
-    h.nm_paciente,
-    f.dt_recebimento,
-    a.qt_lancamento,
-    a.vl_unitario,
-    b.vl_previsto     total_pago,
-    nvl(b.vl_desconto, 0) desconto,
-    a.cd_prestador,
-    a.cd_convenio,
-    a.tp_pagamento,
+SELECT 
+    B.CD_ATENDIMENTO,
+    E.CD_PRO_FAT,
+    A.DT_ALTA,
+    F.DS_PRO_FAT,
+    A.CD_PACIENTE,
+    D.NM_PACIENTE,
+    E.DT_FECHAMENTO DT_PAGAMENTO,
+    E.QT_LANCAMENTO,
+    E.VL_UNITARIO,
+    B.VL_PREVISTO     TOTAL_PAGO,
+    NVL(B.VL_DESCONTO, 0) DESCONTO,
+    E.CD_PRESTADOR,
+    E.CD_CONVENIO,
+    E.TP_PAGAMENTO,
     CASE
-        WHEN a.tp_pagamento = 'P' THEN
+        WHEN E.TP_PAGAMENTO = 'P' THEN
             'Particular'
-        WHEN A.tp_pagamento = 'F' THEN
+        WHEN E.TP_PAGAMENTO = 'F' THEN
             'Fornecedor'
-        WHEN a.tp_pagamento = 'C' THEN
+        WHEN E.TP_PAGAMENTO = 'C' THEN
             'Convenio'
         ELSE
             'Não Identificado = '''
-            || a.tp_pagamento || ''''
-    END tipo_pagamento,
-    f.ds_reccon_rec   forma_pagamento,
-    f.nm_responsavel,
-    e.nr_parcela      num_parcelas
-FROM
-    reccon_rec   f
-    JOIN itcon_rec    e ON e.cd_itcon_rec = f.cd_itcon_rec
-    JOIN con_rec      b ON b.cd_con_rec = e.cd_con_rec
-    JOIN atendime     g ON g.cd_atendimento = b.cd_atendimento
-    JOIN paciente     h ON h.cd_paciente = g.cd_paciente
-    JOIN itreg_amb    a ON a.cd_atendimento = g.cd_atendimento
-                        AND a.cd_reg_amb = b.cd_reg_amb
-                        AND a.cd_prestador = g.cd_prestador
-    JOIN pro_fat      i ON i.cd_pro_fat = a.cd_pro_fat
-WHERE
-    g.cd_paciente = 107172;
-
+            || E.TP_PAGAMENTO || ''''
+    END TIPO_PAGAMENTO,
+    /* 
+    EXCLUIDOS POR NAO ENCONTRAR RELACAO ENTRE AS TABELAS ENVOLVIDAS
+    G.DS_RECCON_REC   FORMA_PAGAMENTO,
+    G.NM_RESPONSAVEL,
+    */
+    C.NR_PARCELA      NUM_PARCELAS
+FROM ATENDIME A
+JOIN CON_REC B 
+     ON B.CD_ATENDIMENTO = A.CD_ATENDIMENTO
+JOIN ITCON_REC C 
+     ON C.CD_CON_REC = B.CD_CON_REC
+JOIN PACIENTE D
+     ON D.CD_PACIENTE = A.CD_PACIENTE
+JOIN ITREG_AMB E
+     ON E.CD_ATENDIMENTO = A.CD_ATENDIMENTO
+JOIN PRO_FAT F
+     ON F.CD_PRO_FAT = E.CD_PRO_FAT
+/*
+EXCLUIDO POR NAO ENCONTRAR RELACAO ENTRE AS TABELAS ENVOLVIDAS
+LEFT JOIN RECCON_REC G
+     ON G.CD_ITCON_REC = C.CD_ITCON_REC
+     AND G.CD_CON_REC_LOTE = B.CD_CON_REC
+*/
+WHERE A.CD_PACIENTE = 107172
+      AND E.Sn_Pertence_Pacote = 'N'
+ORDER BY
+      A.CD_ATENDIMENTO
+      , F.CD_PRO_FAT
