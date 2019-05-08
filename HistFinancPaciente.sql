@@ -40,7 +40,7 @@ SELECT
         when B.tp_con_rec = 'R' then 'Farmacia'
         else 'NAO IDENTIFICADO: ' || B.TP_CON_REC
     end TIPO_CONTA_RECEBER,
-    (select 
+    (select '| ' ||
         case when V."1" is not null then 'Cheque | ' end ||
         case when V."2" is not null then 'Cartao | ' end ||
         case when V."3" is not null then 'Dinheiro | ' end ||
