@@ -18,7 +18,7 @@ select * from DBAMV.ti_pac_mais_5_anos where cd_paciente = 70099;
 --
 SELECT distinct 
     cd_paciente,
-    dt_ultima_visita
+    max(dt_ultima_visita) dt_ultvisita
 FROM
     dbamv.ti_pac_mais_5_anos
 WHERE
@@ -28,7 +28,13 @@ WHERE
         FROM
             dbamv.atendime
         WHERE
-            dt_atendimento >= '01/05/2014'
+            dt_atendimento >= '01/01/2015'
     )
+    --and cd_paciente in (70812, 70856, 70940, 70713, 69649, 69724, 69747, 69898, 69950) -- Deve aparecer todos na listagem
+    --and cd_paciente in (69864)  -- Nao deve aparecer na listagem
+group by
+    cd_paciente
 ORDER BY
     cd_paciente;
+    
+
