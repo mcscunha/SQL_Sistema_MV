@@ -6,30 +6,44 @@ SELECT DISTINCT
 FROM 
 	(
 		SELECT
+			'Agenda por Médico' tabela,
 			REPLACE(códcliente, 'P', '') cd_paciente,
 			nomecliente nm_paciente,
-			horáriochegada dt_ultima_visita,
+			max(horáriochegada) dt_ultima_visita,
 			B.FlagFalecido Falecido
 		FROM 
 			Agenda.dbo."Agenda por Médico" A
 		JOIN "Clientes"."dbo"."Clientes" B 
 			ON replace(B."Prontuário", 'P', '') = A.códcliente
 		-- WHERE B.FlagFalecido = 0
+		WHERE códcliente = '70926'
+		GROUP BY 
+			REPLACE(códcliente, 'P', ''),
+			nomecliente,
+			B.FlagFalecido
 		
 		UNION
 		
 		SELECT
+			'Agenda por Médico B' tabela,
 			REPLACE(códcliente, 'P', '') cd_paciente,
 			nomecliente nm_paciente,
-			horáriochegada dt_ultima_visita,
+			max(horáriochegada) dt_ultima_visita,
 			D.FlagFalecido Falecido
 		FROM 
 			Agenda.dbo."Agenda por Médico B" C
 		JOIN "Clientes"."dbo"."Clientes" D
 			ON replace(D."Prontuário", 'P', '') = C.códcliente
 		-- WHERE D.FlagFalecido = 0
-	) AS V
+		WHERE códcliente = '70926'
+		GROUP BY 
+			REPLACE(códcliente, 'P', ''),
+			nomecliente,
+			D.FlagFalecido
 
+	) AS V
+WHERE 
+	cd_paciente = '70926'
 GROUP BY 
 	cd_paciente,
 	nm_paciente
