@@ -12,15 +12,21 @@ SELECT
             and acz.dt_agenda = ac.dt_agenda
             and acz.cd_prestador = ac.cd_prestador)
     ) max_atend,
-    (
-        (select 
-            sum(acx.qt_marcados)
-        from
-            DBAMV.agenda_central acx 
-        where 
-            acx.sn_ativo = 'S' 
-            and acx.dt_agenda = ac.dt_agenda
-            and acx.cd_prestador = ac.cd_prestador)
+    (   
+        select 
+            count(distinct it1.nm_paciente)
+        from 
+            DBAMV.it_agenda_central it1
+        join
+            DBAMV.agenda_central ac1 
+                on ac1.cd_agenda_central = it1.cd_agenda_central
+        where
+            it1.cd_it_agenda_pai is null
+            and it1.cd_item_agendamento is not null
+            and ac1.sn_ativo = 'S'
+            and it1.cd_it_agenda_pai is null
+            and ac1.dt_agenda = ac.dt_agenda
+            and ac1.cd_prestador = ac.cd_prestador
     ) qt_marcados,
     (
         (select 
