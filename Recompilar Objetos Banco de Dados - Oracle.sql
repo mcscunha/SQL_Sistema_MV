@@ -25,3 +25,20 @@ FROM DBA_OBJECTS U
 WHERE STATUS <> 'VALID'
   AND OWNER <> 'SYS'
   AND U.OBJECT_TYPE IN ('PROCEDURE','FUNCTION','PACKAGE BODY','PACKAGE');
+
+
+-- -----------------------------------
+-- TERCEIRA Forma
+-- -----------------------------------
+/*
+Compilação por script SQL
+O Oracle possui um script em seu diretório $ORACLE_HOME que realiza a 
+compilação de todos os objetos inválidos presentes no Banco de Dados.
+O script fornece um relatório detalhado das operações executadas pelo
+processo de compilação.
+*/
+-- Ambiente Linux
+SQL>@$ORACLE_HOME/rdbms/admin/UTLRP.SQL
+
+-- Ambiente Windows
+SQL>@%ORACLE_HOME%/rdbms/admin/UTLRP.SQL
