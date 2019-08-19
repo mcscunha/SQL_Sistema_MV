@@ -57,11 +57,11 @@ SELECT UTL_INADDR.GET_HOST_ADDRESS(HOST_NAME),
        HOST_NAME
   FROM V$INSTANCE;
 
---Com esta outra querie, você identifica o endereço IP de uma sessão SQL*Plus cliente:
+--Com esta outra querie, vocï¿½ identifica o endereï¿½o IP de uma sessï¿½o SQL*Plus cliente:
 SELECT SYS_CONTEXT('USERENV', 'IP_ADDRESS') FROM DUAL;
---Esta querie acima irá retornar NULL, caso a sessão não esteja usando TCP/IP na conexão.
+--Esta querie acima irï¿½ retornar NULL, caso a sessï¿½o nï¿½o esteja usando TCP/IP na conexï¿½o.
 
---Você também pode ter uma visão geral de todas as sessões de banco existentes:
+--Vocï¿½ tambï¿½m pode ter uma visï¿½o geral de todas as sessï¿½es de banco existentes:
 SELECT SID, OSUSER, TERMINAL FROM V$SESSION;
 
 
@@ -71,7 +71,7 @@ Saber IP e PORTA do banco conectado
 (---- SQLSERVER  ----)
 ###############################################
 
--- Saber qual IP e Porta que a base está conectada
+-- Saber qual IP e Porta que a base estï¿½ conectada
 SELECT @@SERVERNAME,
  CONNECTIONPROPERTY('net_transport') AS net_transport,
  CONNECTIONPROPERTY('protocol_type') AS protocol_type,
@@ -156,30 +156,37 @@ INSERT INTO SAME
 INFORMACOES DOS DOCUMENTOS DO EDITOR
 ###############################################
 
--- ORDEM DO DOCUMENTO ATÉ A RESPOSTA
+-- ORDEM DO DOCUMENTO ATï¿½ A RESPOSTA
 SELECT *
 FROM DBAMV.EDITOR_DOCUMENTO
-WHERE Cd_DOCUMENTO = 450;
+WHERE Cd_DOCUMENTO = 449;
 
 
-
+-- Informar a versao do documento
+-- Quando importar, verificar qual a ultima versao do documento
+-- e acertar no campo VL_VERSAO
 SELECT *
 FROM DBAMV.EDITOR_VERSAO_DOCUMENTO
-WHERE CD_DOCUMENTO = 450;
+WHERE CD_DOCUMENTO = 449
+    and cd_versao_documento = 2021;
 
 
-
+-- Se quiser guardar o documento ja feito para depois inserir novamente,
+-- o conteudo do campo LO_CONTEUDO deve ser substituido
 SELECT *
 FROM DBAMV.EDITOR_LAYOUT
 WHERE CD_VERSAO_DOCUMENTO IN (
     SELECT CD_VERSAO_DOCUMENTO
     FROM DBAMV.EDITOR_VERSAO_DOCUMENTO
-    WHERE CD_DOCUMENTO = 450
-)
---  AND Cd_TIPO_LAYOUT = 1;
+    WHERE CD_DOCUMENTO = 449
+        and cd_layout in (3709, 3720)
+        -- 1=Tela  |  2=Relatorio
+        --  AND Cd_TIPO_LAYOUT = 1  
+    );
   
-  
-  
+
+-- Guarda as varias vezes que foi salvo um documento para teste
+-- Quando se usa a area de teste para ver como serÃ¡ a impressao
 select *
 from dbamv.editor_registro
 where cd_layout IN (
@@ -188,17 +195,19 @@ where cd_layout IN (
     WHERE CD_VERSAO_DOCUMENTO IN (
         SELECT CD_VERSAO_DOCUMENTO
         FROM DBAMV.EDITOR_VERSAO_DOCUMENTO
-        WHERE CD_DOCUMENTO = 450
+        WHERE CD_DOCUMENTO = 449
+            and cd_layout = 3709
     )
 );
 
 
+-- Conteudo de cada campo em cada gravacao para impressao
 SELECT A.CD_CAMPO
       ,B.DS_CAMPO
       ,TO_CHAR(A.LO_VALOR)
 FROM DBAMV.EDITOR_REGISTRO_CAMPO A
 INNER JOIN DBAMV.EDITOR_CAMPO    B ON B.CD_CAMPO = A.CD_CAMPO
-WHERE A.CD_REGISTRO = 152154;
+WHERE A.CD_REGISTRO = 38747;
 
 
 ###############################################
@@ -209,7 +218,7 @@ function fun_remove_char_esp(texto in varchar2) return varchar2 is
 begin
   return translate(
          texto,
-         'ÑÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÄËÏÖÜÇñáéíóúàèìòùâêîôûãõäëïöüç.-!"''`#$%().:[/]{}¨+?;ºª°§&´*<>',
+         'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.-!"''`#$%().:[/]{}ï¿½+?;ï¿½ï¿½ï¿½ï¿½&ï¿½*<>',
          'NAEIOUAEIOUAEIOUAOAEIOUCnaeiouaeiouaeiouaoaeiouc'
          );
 end;
@@ -543,7 +552,7 @@ DELETE FROM atendime WHERE cd_atendimento IN (648, 664, 654);
 
 
 
--- Nome da tabela a FK está ligada
+-- Nome da tabela a FK estï¿½ ligada
 select * from all_constraints where constraint_name like '%CNT_PW_REG_ALTA_DOC%'
 
 
@@ -688,7 +697,7 @@ WHERE UCR.TABLE_NAME IN ('SETOR') --COLOCAR A TABELA PARA SER ANALISADA
      AND UCR.CONSTRAINT_TYPE IN( 'P','U')
 ORDER BY CHILD_TABLE, CONSTRAINT_NAME, CHILD_COLUMN
 
--- R" de "Referential", ou seja, é uma CONSTRAINT do tipo FK !
+-- R" de "Referential", ou seja, ï¿½ uma CONSTRAINT do tipo FK !
 -- Para os valores, pelo o que sei pode receber valores abaixo:
 --	C = Check
 --	P = Primary Key
@@ -808,7 +817,7 @@ Data Completa no MVEditor
 ###############################################
 
 -- Acessando pelo banco
-SELECT ('RIBEIRÃO PRETO, ' ||
+SELECT ('RIBEIRï¿½O PRETO, ' ||
        TO_CHAR(TO_DATE(SYSDATE),
                 'DD " DE " FMMONTH " DE " YYYY',
                 'NLS_DATE_LANGUAGE = PORTUGUESE')) DATA
@@ -818,12 +827,12 @@ FROM DUAL
 
 -- Data Atual Completa - Versao 1 - Switch
 {
-	"Ribeirão Preto, " +
+	"Ribeirï¿½o Preto, " +
 	Day(Today)+ " de "+
 	Switch( 
 		Month(Today)==1 , "Janeiro",
 		Month(Today)==2 , "Fevereiro",
-		Month(Today)==3 , "Março",
+		Month(Today)==3 , "Marï¿½o",
 		Month(Today)==4 , "Abril",
 		Month(Today)==5 , "Maio",
 		Month(Today)==6 , "Junho",
@@ -840,11 +849,11 @@ FROM DUAL
 
 -- Data Atual Completa - Versao 2 - IIF
 {
-	"Ribeirão Preto, " +
+	"Ribeirï¿½o Preto, " +
 	Day(Today)+ " de "+
 	IIF(Month(Today)==1 , "Janeiro",
 		IIF(Month(Today)==2 , "Fevereiro",
-			IIF(Month(Today)==3 , "Março",
+			IIF(Month(Today)==3 , "Marï¿½o",
 				IIF(Month(Today)==4 , "Abril",
 					IIF(Month(Today)==5 , "Maio",
 						IIF(Month(Today)==6 , "Junho",
@@ -889,12 +898,12 @@ Data no REPORT
 ###############################################
 
 {
-"Ribeirão Preto, " +
+"Ribeirï¿½o Preto, " +
 Day(V_DATAPROCED)+ " de "+
 	Switch( 
 		Month(V_DATAPROCED)==1 , "Janeiro",
 		Month(V_DATAPROCED)==2 , "Fevereiro",
-		Month(V_DATAPROCED)==3 , "Março",
+		Month(V_DATAPROCED)==3 , "Marï¿½o",
 		Month(V_DATAPROCED)==4 , "Abril",
 		Month(V_DATAPROCED)==5 , "Maio",
 		Month(V_DATAPROCED)==6 , "Junho",
@@ -1003,7 +1012,7 @@ SMA-PEP - Novo Prontuario Eletronico do Paciente Web
 PEP - Prontuario Eletronico do Paciente
 PAGU - GERENCIAMENTO DE UNIDADE
 DIAGN-LAB - LAUDOS DE LABORATORIO NA WEB
-SMA-CID - PRONTUARIO ELETRONICO CIDADÃO
+SMA-CID - PRONTUARIO ELETRONICO CIDADï¿½O
 APOIO - SISTEMAS DE APOIO
 CONTR-ORC - CONTROLADORIA-ORCAMENTO
 GLOBAL - Global
@@ -1014,7 +1023,7 @@ SUPRI-COMP - SUPRIMENTOS-COMPRASWEB
 FATUR-CONV - FATURAMENTO-CONVENIO
 FATUR-SUS - FATURAMENTO-SUS
 LIBERTY - SOUL MV LIBERTY
-SMA-PAGU - CONFIGURAÇÕES DO PEP (PAGU SOULMV)
+SMA-PAGU - CONFIGURAï¿½ï¿½ES DO PEP (PAGU SOULMV)
 GECOTA - GECOTA
 CLASRISCO - CLASSIFICACAO DE RISCO
 INTER - Internacao
