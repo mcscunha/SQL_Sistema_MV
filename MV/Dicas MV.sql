@@ -1,7 +1,38 @@
 ###############################################
+Deletar NOTA FISCAL com erro
+###############################################
+-- Este é o numero da NF passada pelo usuario
+select a.sn_rps_gerada, a.* from DBAMV.nota_fiscal a 
+where nr_id_nota_fiscal in (420);
+
+--
+-- CUIDADO: Nao sao os mesmos codigos usados no SELECT acima
+--          Deve-se descobrir estes numeros com o SELECT acima
+select * from NOTA_FISCAL_TRIBUTO where cd_nota_fiscal in (444);
+select * from ITFAT_NOTA_FISCAL where cd_nota_fiscal in (444);
+
+
+--
+-- DELETAR registros filhos
+--
+delete ITFAT_NOTA_FISCAL where cd_nota_fiscal in (444);
+delete from NOTA_FISCAL_TRIBUTO where cd_nota_fiscal in (444);
+
+--
+-- CUIDADO: Nao repetir os codigos usados acima
+--          Deletar registro pai
+delete from DBAMV.nota_fiscal where nr_id_nota_fiscal in (420);
+
+
+###############################################
+Descobrir qual tabela se refere a FOREIGN KEY CONSTRAINT
+###############################################
+select * from all_constraints where constraint_name like '%ITFAT_NF_NOT_FIS_FK%'
+
+
+###############################################
 Tabela para o documento de entrega de exames
 ###############################################
-
 -- Ver se existe algum objeto com o mesmo nome
 SELECT * FROM all_objects WHERE owner = 'TI1'
 
@@ -49,7 +80,6 @@ SELECT CD_ID, NM_EXAME
 ###############################################
 IP e Porta do banco de dados
 ###############################################
-
 SELECT * FROM V$INSTANCE;
 
 SELECT UTL_INADDR.GET_HOST_ADDRESS(HOST_NAME),

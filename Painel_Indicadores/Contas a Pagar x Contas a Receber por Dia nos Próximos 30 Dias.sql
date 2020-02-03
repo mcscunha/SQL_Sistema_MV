@@ -1,29 +1,25 @@
-SELECT
-  To_Char(DT_PREVISTA_RECEBIMENTO, 'dd') Dia,
-  'A Receber' Tipo,
-  Sum(itcon_rec.VL_DUPLICATA) valor
-FROM
-  dbamv.con_rec,
-  dbamv.itcon_rec,
-  dbamv.fornecedor
-WHERE
-  con_rec.cd_con_rec = itcon_rec.cd_con_rec
+SELECT 
+  to_number(To_Char(DT_PREVISTA_RECEBIMENTO,'dd')) Dia
+  , 'A Receber' Tipo
+  , Sum(itcon_rec.VL_DUPLICATA) valor
+FROM dbamv.con_rec
+  , dbamv.itcon_rec
+  , dbamv.fornecedor
+WHERE con_rec.cd_con_rec = itcon_rec.cd_con_rec
   AND con_rec.cd_fornecedor = fornecedor.cd_fornecedor
-  AND con_rec.cd_multi_empresa IN (1)
+  AND con_rec.cd_multi_empresa IN (1) 
   AND ITCON_REC.CD_CON_REC_AGRUP IS NULL
-  AND DT_PREVISTA_RECEBIMENTO BETWEEN Trunc(SYSDATE)
-  AND Trunc(SYSDATE) + 30
+  AND DT_PREVISTA_RECEBIMENTO BETWEEN Trunc(SYSDATE) AND Trunc(SYSDATE) + 30
   AND itcon_rec.DT_CANCELAMENTO IS NULL
-GROUP BY
-  To_Char(DT_PREVISTA_RECEBIMENTO, 'dd')
+GROUP BY To_Char(DT_PREVISTA_RECEBIMENTO,'dd')
 
 UNION ALL
 
 SELECT
   --To_char(to_date('01/' || to_char(sysdate, 'mm/yyyy'))-1) Dia, -- Pegar o primeiro dia do mes corrente
   --'1 - Vencidos' CLASSE,
-  '00' Dia,
-  'A Pagar',
+  0 Dia, 
+  'A Pagar',  
   sum(
     CASE
       WHEN trunc((trunc(trunc(SYSDATE)) - trunc(i.dt_vencimento))) > 0 THEN (
@@ -147,19 +143,17 @@ WHERE
       cd_multi_empresa = c.cd_multi_empresa
       AND cd_estrutural IN ('1.2.1.1.5', '2.1.1.1.3')
   ) --AND c.cd_fornecedor = 76
-  --group by
-  --  To_char(to_date('01/' || to_char(sysdate, 'mm/yyyy'))-1)
+--group by
+--  To_char(to_date('01/' || to_char(sysdate, 'mm/yyyy'))-1)
 
 UNION
 
 SELECT
-  to_char(i.dt_vencimento, 'dd') Dia,
-  'A Pagar',
-  --  '2 - Ate o fim deste mes' CLASSE,
+  to_number(to_char(i.dt_vencimento, 'dd')) Dia,
+  'A Pagar',  --  '2 - Ate o fim deste mes' CLASSE,
   sum(
     CASE
-      WHEN abs(trunc(trunc(SYSDATE)) - trunc(i.dt_vencimento)) BETWEEN 0
-      AND Trunc(last_day(SYSDATE) - sysdate) THEN (
+      WHEN abs(trunc(trunc(SYSDATE)) - trunc(i.dt_vencimento)) BETWEEN 0 AND Trunc(last_day(SYSDATE) - sysdate) THEN (
         nvl(i.vl_duplicata, 0) + dbamv.pack_calc_detalhamento.fnc_fncp_calc_imposto_parcela(
           i.cd_itcon_pag,
           trunc(SYSDATE),
@@ -281,4 +275,5 @@ WHERE
       AND cd_estrutural IN ('1.2.1.1.5', '2.1.1.1.3')
   ) --AND c.cd_fornecedor = 76
 group by
-  to_char(i.dt_vencimento, 'dd');
+  to_char(i.dt_vencimento, 'dd')
+;
